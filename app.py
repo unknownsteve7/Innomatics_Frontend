@@ -3,7 +3,7 @@ from streamlit.components.v1 import html
 from services.api_service import get_api_service, handle_api_error, show_backend_config, test_backend_connection
 
 # --- Global Configuration and Session State Management ---
-st.set_page_config(layout="wide", page_title="AI Resume Analyzer")
+st.set_page_config(layout="wide", page_title="AI Resume Relevance Checker", page_icon="🤖")
 
 if "role" not in st.session_state:
     st.session_state.role = None
@@ -140,7 +140,7 @@ def create_job_on_backend(job_data):
         st.success("Job created successfully on backend!")
         return True
     except Exception as e:
-        st.error(f"❌ Backend error: {str(e)}")
+        st.error(f" Backend error: {str(e)}")
         return False
 
 def submit_application_to_backend(job_title, resume_file, candidate_data=None):
@@ -154,7 +154,7 @@ def submit_application_to_backend(job_title, resume_file, candidate_data=None):
         job_id = job_data.get("id")
         
         if not job_id:
-            st.error(f"❌ Job ID not found for '{job_title}'. Please refresh jobs from backend.")
+            st.error(f" Job ID not found for '{job_title}'. Please refresh jobs from backend.")
             return None
         
         api_service = get_api_service()
@@ -165,7 +165,7 @@ def submit_application_to_backend(job_title, resume_file, candidate_data=None):
         
         return result
     except Exception as e:
-        st.error(f"❌ Backend error: {str(e)}")
+        st.error(f" Backend error: {str(e)}")
         return None
 
 def analyze_resume_on_backend(resume_file, job_description=None):
@@ -188,7 +188,7 @@ def analyze_resume_on_backend(resume_file, job_description=None):
         
         return result
     except Exception as e:
-        st.error(f"❌ Backend error: {str(e)}")
+        st.error(f" Backend error: {str(e)}")
         return None
 
 def parse_job_document_on_backend(job_doc_file):
@@ -207,7 +207,7 @@ def parse_job_document_on_backend(job_doc_file):
         # First test if backend is reachable
         health_check = api_service.health_check()
         if "error" in health_check:
-            st.error(f"🔌 Backend connection failed: {health_check['error']}")
+            st.error(f" Backend connection failed: {health_check['error']}")
             return None
         
         # Reset file pointer to beginning
@@ -215,8 +215,6 @@ def parse_job_document_on_backend(job_doc_file):
         
         result = api_service.parse_job_document(job_doc_file)
         
-        # Debug: Show raw response
-        st.write("🐛 Debug - Raw API Response:", result)
         
         # Check for specific backend errors
         if "error" in result:
@@ -231,8 +229,8 @@ def parse_job_document_on_backend(job_doc_file):
         
         return result
     except Exception as e:
-        st.error(f"❌ Backend error: {str(e)}")
-        st.write(f"🐛 Exception details: {type(e).__name__}: {str(e)}")
+        st.error(f" Backend error: {str(e)}")
+        
         return None
 
 def generate_demo_job_data(filename):
@@ -249,7 +247,7 @@ def generate_demo_job_data(filename):
         }
     elif "backend" in filename_lower or "api" in filename_lower or "server" in filename_lower:
         return {
-            "job_title": "Backend Developer", 
+            "job_title": "Backend Developer",  
             "department": "Engineering",
             "description": "Join our backend team to build scalable APIs and server-side applications. You will work on high-performance systems that power our platform.",
             "requirements": "• 3+ years of backend development experience\n• Proficiency in Python/Node.js\n• Database design and optimization\n• API development and microservices"
@@ -257,7 +255,7 @@ def generate_demo_job_data(filename):
     elif "data" in filename_lower or "analyst" in filename_lower:
         return {
             "job_title": "Data Analyst",
-            "department": "Analytics", 
+            "department": "Analytics",  
             "description": "We are seeking a Data Analyst to help drive business decisions through data insights and reporting.",
             "requirements": "• Strong SQL skills\n• Experience with Python/R\n• Data visualization tools\n• Statistical analysis background"
         }
@@ -303,9 +301,9 @@ def render_score_circle(score, color=None):
 
 
 # --- MODALS ---
-@st.dialog("📄 Analyze New Resume")
+@st.dialog("Analyze New Resume")
 def analyze_resume_modal():
-    st.markdown("#### 👤 Candidate Information")
+    st.markdown("#### Candidate Information")
     col1, col2 = st.columns(2)
     
     with col1:
@@ -322,7 +320,7 @@ def analyze_resume_modal():
             key="analyze_job_role"
         )
     
-    st.markdown("#### 📎 Upload Files")
+    st.markdown("#### Upload Files")
     
     job_desc_file = st.file_uploader(
         "Job Description File",
@@ -344,7 +342,7 @@ def analyze_resume_modal():
     col_btn1, col_btn2, col_btn3 = st.columns(3)
     
     with col_btn1:
-        if st.button("🔄 Reset Form", key="reset_form", use_container_width=True):
+        if st.button("Reset Form", key="reset_form", use_container_width=True):
             # Clear form by resetting session state keys
             for key in ['analyze_candidate_name', 'analyze_job_role', 'analyze_job_desc_file', 'analyze_resume_file']:
                 if key in st.session_state:
@@ -352,11 +350,11 @@ def analyze_resume_modal():
             st.rerun()
     
     with col_btn2:
-        if st.button("❌ Cancel", key="cancel_modal", use_container_width=True):
+        if st.button("Cancel", key="cancel_modal", use_container_width=True):
             st.rerun()
     
     with col_btn3:
-        if st.button("🚀 Analyze", key="run_analysis", type="primary", use_container_width=True):
+        if st.button("Analyze", key="run_analysis", type="primary", use_container_width=True):
             # Validation
             if not candidate_name:
                 st.error("Please enter candidate name")
@@ -380,9 +378,9 @@ def view_details_modal(candidate_data):
     is_backend_data = 'application_id' in candidate_data and 'missing_skills' in candidate_data
     
     # Header section that matches the screenshot
-    st.subheader(candidate_data['name'])
-    st.write(candidate_data['job_role'])
-    st.markdown(get_tag_html(candidate_data['score'], candidate_data.get('verdict')), unsafe_allow_html=True)
+    st.subheader(candidate_data.get('name', 'Unknown Candidate'))
+    st.write(candidate_data.get('job_role', 'Unknown Position'))
+    st.markdown(get_tag_html(candidate_data.get('score', 0), candidate_data.get('verdict')), unsafe_allow_html=True)
     
     if is_backend_data:
         # Enhanced tabs for backend data
@@ -394,7 +392,7 @@ def view_details_modal(candidate_data):
             
             with col1:
                 # Score circle
-                render_score_circle(candidate_data['score'])
+                render_score_circle(candidate_data.get('score', 0))
                 st.write(f"{candidate_data.get('verdict', 'Medium')} Fit")
             
             with col2:
@@ -417,7 +415,7 @@ def view_details_modal(candidate_data):
             missing_skills = candidate_data.get('missing_skills', [])
             if missing_skills:
                 for skill in missing_skills:
-                    st.write(f"❌ {skill}")
+                    st.write(f" {skill}")
                 
                 st.subheader("Recommendations")
                 st.info(f"Consider developing skills in: {', '.join(missing_skills[:3])}.")
@@ -447,7 +445,7 @@ def view_details_modal(candidate_data):
                     st.write(f"**Application ID:** {candidate_data['application_id']}")
                 if candidate_data.get('resume_file'):
                     st.write(f"**Resume File:** {candidate_data['resume_file']}")
-                st.write(f"**Job Applied For:** {candidate_data['job_role']}")
+                st.write(f"**Job Applied For:** {candidate_data.get('job_role', 'Unknown Position')}")
                 
             with col3b:
                 if candidate_data.get('application_date'):
@@ -459,7 +457,7 @@ def view_details_modal(candidate_data):
                     except:
                         st.write(f"**Applied:** {candidate_data['application_date']}")
                 
-                st.write(f"**Relevance Score:** {candidate_data['score']}/100")
+                st.write(f"**Relevance Score:** {candidate_data.get('score', 0)}/100")
                 st.write(f"**Final Verdict:** {candidate_data.get('verdict', 'Medium')}")
     
     elif st.session_state.role == "candidate":
@@ -472,7 +470,7 @@ def view_details_modal(candidate_data):
             
             with col1:
                 # Score circle that matches the screenshot
-                render_score_circle(candidate_data['score'])
+                render_score_circle(candidate_data.get('score', 0))
                 st.write("Relevance Score")
             
             with col2:
@@ -481,57 +479,60 @@ def view_details_modal(candidate_data):
                 
                 if candidate_data.get("gaps"):
                     st.subheader("Skill Gaps Identified")
-                    for gap in candidate_data["gaps"]:
-                        st.write(f'❌ {gap}')
+                    for gap in candidate_data.get("gaps", []):
+                        st.write(f' {gap}')
         
         with tabs[1]:
             st.subheader("Highlighted Gaps")
             if candidate_data.get("gaps"):
-                for gap in candidate_data["gaps"]:
-                    st.write(f"❌ {gap}")
+                for gap in candidate_data.get("gaps", []):
+                    st.write(f" {gap}")
             elif st.session_state.role == "candidate":
                 st.success("No significant gaps identified!")
                 
             st.markdown("---")
-            st.subheader("💡 Improvement Feedback")
+            st.subheader(" Improvement Feedback")
             st.info(candidate_data.get("suggestions", "Continue developing relevant skills and experience."))
 
         with tabs[2]:
             st.subheader("Score Comparison")
             
             # Get the job data for comparison
-            job_data = JOBS_DATA.get(candidate_data['job_role'], {})
+            job_data = JOBS_DATA.get(candidate_data.get('job_role', 'Unknown'), {})
             avg_score = job_data.get('avg_score', 0)
+            candidate_score = candidate_data.get('score', 0)
             
             # Candidate score bar
             st.write(f"**Candidate Score**")
-            st.progress(candidate_data['score'] / 100)
+            st.progress(candidate_score / 100)
             
             # Average score bar  
             st.write(f"**Average for Role**")
             st.progress(avg_score / 100)
             
             st.markdown("---")
-            st.write(f"This chart compares {candidate_data['name']}'s relevance score to the average score of all candidates who applied for the {candidate_data['job_role']} position.")
+            st.write(f"This chart compares {candidate_data.get('name', 'this candidate')}'s relevance score to the average score of all candidates who applied for the {candidate_data.get('job_role', 'this')} position.")
             
-            if candidate_data['score'] > avg_score:
-                st.success(f"This candidate scored {candidate_data['score'] - avg_score} points above average!")
-            elif candidate_data['score'] < avg_score:
-                st.warning(f"This candidate scored {avg_score - candidate_data['score']} points below average.")
+            if candidate_score > avg_score:
+                st.success(f"This candidate scored {candidate_score - avg_score} points above average!")
+            elif candidate_score < avg_score:
+                st.warning(f"This candidate scored {avg_score - candidate_score} points below average.")
             elif st.session_state.role == "candidate":
                 st.info("This candidate scored exactly at the average level.")
     
     with tabs[1]:
         st.subheader("Highlighted Gaps")
         if candidate_data.get("gaps"):
-            for gap in candidate_data["gaps"]:
-                st.write(f"❌ {gap}")
+            for gap in candidate_data.get("gaps", []):
+                st.write(f" {gap}")
         elif st.session_state.role == "candidate":
             st.success("No significant gaps identified!")
             
         st.markdown("---")
-        st.subheader("💡 Improvement Feedback")
-        st.info(candidate_data["suggestions"])
+        st.subheader(" Improvement Feedback")
+        # Use feedback field if available, fallback to suggestions
+        feedback_text = candidate_data.get("suggestions") or candidate_data.get("feedback") or "No specific feedback available."
+        st.info(feedback_text)
 
     with tabs[2]:
         st.subheader("Score Comparison")
@@ -558,10 +559,10 @@ def view_details_modal(candidate_data):
         elif st.session_state.role == "candidate":
             st.info("This candidate scores exactly at the average.")
 
-@st.dialog("💼 Job Details")
+@st.dialog("Job Details")
 def job_details_modal(job_title, job_data):
     # Back button
-    if st.button("← Back to All Jobs", key="back_to_jobs"):
+    if st.button(" Back to All Jobs", key="back_to_jobs"):
         st.rerun()
     
     st.markdown("<br>", unsafe_allow_html=True)
@@ -605,7 +606,7 @@ def job_details_modal(job_title, job_data):
         st.markdown("<br>", unsafe_allow_html=True)
         
         # Enhanced Get Feedback button
-        if st.button("🚀 Get Feedback", type="primary", use_container_width=True, key=f"get_feedback_{job_title}"):
+        if st.button(" Get Feedback", type="primary", use_container_width=True, key=f"get_feedback_{job_title}"):
             if uploaded_file:
                 # Prepare candidate data
                 candidate_data = {
@@ -622,12 +623,18 @@ def job_details_modal(job_title, job_data):
                     
                     # Create a new candidate record for tracking
                     score = backend_result.get('relevance_score', 75) if backend_result else 75
+                    verdict = backend_result.get('verdict', 'High' if score >= 80 else 'Medium' if score >= 60 else 'Low') if backend_result else 'Medium'
+                    
                     new_candidate = {
                         'name': candidate_data['name'],
-                        'job_role': job_title,
+                        'job_role': job_title,  # This should be the actual job title
                         'score': score,
-                        'verdict': backend_result.get('verdict', 'High' if score >= 80 else 'Medium' if score >= 60 else 'Low') if backend_result else 'Medium',
-                        'resume_file': uploaded_file.name
+                        'verdict': verdict,
+                        'resume_file': uploaded_file.name,  # Keep original filename
+                        'missing_skills': backend_result.get('missing_skills', []) if backend_result else [],
+                        'feedback': backend_result.get('feedback', 'Application submitted successfully. You will receive detailed feedback soon.') if backend_result else 'Application submitted successfully.',
+                        'application_date': backend_result.get('application_date', '') if backend_result else '',
+                        'application_id': backend_result.get('id', '') if backend_result else ''
                     }
                     
                     # Add to candidates data if you want to track individual applications
@@ -641,10 +648,10 @@ def job_details_modal(job_title, job_data):
                 st.session_state.feedback_resume_name = uploaded_file.name
                 st.session_state.feedback_backend_result = backend_result  # Store the full backend result
                 
-                success_message = "🎉 Application submitted!"
+                success_message = " Application submitted!"
                 if st.session_state.use_backend and backend_result:
                     success_message += f" Score: {backend_result.get('relevance_score', 'N/A')}"
-                elif st.session_state.role == "candidate":
+                else:
                     success_message += " You'll receive feedback within 24 hours."
                     
                 st.success(success_message)
@@ -661,12 +668,12 @@ def job_details_modal(job_title, job_data):
         st.write(f"Total Applications: {job_data['applicants']}")
         st.write(f"Average Score: {job_data['avg_score']}")
 
-@st.dialog("➕ Create New Job Posting")
+@st.dialog("Create New Job Posting")
 def create_job_posting_modal():
     st.markdown("Fill in the details below to create a new job posting:")
     
     # Document Upload Section - moved to top for auto-fill functionality
-    st.markdown("### 📄 Auto-Fill from Document (Optional)")
+    st.markdown("### Auto-Fill from Document (Optional)")
     st.markdown("Upload a job description document to automatically populate the form fields below:")
     st.info("**Supported formats:** PDF, DOC, DOCX only. Other formats will be rejected by the backend.")
     
@@ -718,7 +725,7 @@ def create_job_posting_modal():
                         st.info("2. Ensure the backend server is running")
                         st.info("3. Click 'Test Connection' in the sidebar")
                     else:
-                        st.success("Backend connected! Parsing document...")
+                        
                         
                         with st.spinner("Parsing document..."):
                             parsed_data = parse_job_document_on_backend(job_doc_file)
@@ -731,18 +738,16 @@ def create_job_posting_modal():
                                 st.session_state.parsed_requirements = parsed_data.get("requirements", "")
                                 st.session_state.parsing_completed = True
                                 
-                                st.success("🎉 Document parsed successfully! Form fields updated below.")
-                                st.info("👀 **Please review the auto-filled information and make any necessary changes before creating the job.**")
                                 
-                                # Show a preview of parsed data
-                                with st.expander("📋 Parsed Data Preview", expanded=True):
-                                    st.write("**Job Title:**", st.session_state.parsed_job_title)
-                                    st.write("**Department:**", st.session_state.parsed_department)
-                                    st.write("**Description:**", st.session_state.parsed_description[:200] + "..." if len(st.session_state.parsed_description) > 200 else st.session_state.parsed_description)
-                                    st.write("**Requirements:**", st.session_state.parsed_requirements[:200] + "..." if len(st.session_state.parsed_requirements) > 200 else st.session_state.parsed_requirements)
-                                    st.info("👇 **These values are automatically filled in the form below**")
-                                    
-                                # Removed st.rerun() - fields will update on next interaction
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                             else:
                                 st.warning("Backend parsing failed. Using demo data...")
                                 # Fallback to demo data based on filename
@@ -753,7 +758,6 @@ def create_job_posting_modal():
                                 st.session_state.parsed_requirements = demo_data["requirements"]
                                 st.session_state.parsing_completed = True
                                 
-                                st.info(" Demo data filled in. Please review and modify as needed before creating the job.")
                                 
                                 # Show a preview of demo data
                                 with st.expander(" Demo Data Preview", expanded=True):
@@ -769,8 +773,8 @@ def create_job_posting_modal():
     elif st.session_state.parsing_completed:
         col_msg, col_clear = st.columns([3, 1])
         with col_msg:
-            st.success(" Document parsing completed! Review the auto-filled fields below.")
-            st.info("👀 **Please review and modify the information before creating the job.**")
+             st.success(" Document parsing completed! Review the auto-filled fields below.")
+             st.info(" Review and modify the information before creating the job.")
         with col_clear:
             if st.button("Clear Form", help="Clear auto-filled data and start fresh"):
                 # Clear all parsed data
@@ -783,7 +787,7 @@ def create_job_posting_modal():
                 st.success("Form cleared! You can now fill manually or upload a new document.")
     
     st.markdown("---")
-    st.markdown("### ✏️ Job Details")
+    st.markdown("### Job Details")
     st.info(" **Review and edit the information below, then click 'Create Job' to save.**")
     
     # Job Title and Department in two columns
@@ -881,7 +885,7 @@ def create_job_posting_modal():
             elif st.session_state.role == "candidate":
                 st.error(" Please fill in all required fields")
 
-@st.dialog("Application Feedback") 
+@st.dialog("Application Feedback")  
 def application_feedback_modal(app_data):
     # Header with job title
     st.subheader("Application Feedback")
@@ -931,9 +935,9 @@ def application_feedback_modal(app_data):
             missing_skills = app_data.get('missing_skills', [])
             if missing_skills:
                 for skill in missing_skills:
-                    st.write(f"❌ {skill}")
+                    st.write(f" {skill}")
             elif st.session_state.role == "candidate":
-                st.success('✓ No missing skills identified!')
+                st.success(' No missing skills identified!')
             
             st.subheader('Recommendations')
             if missing_skills:
@@ -961,7 +965,7 @@ def application_feedback_modal(app_data):
         with tab2:
             st.subheader('Focus Areas for Your Resume')
             for area in app_data.get("focus_areas", []):
-                st.write(f"❌ {area}")
+                st.write(f" {area}")
             
             st.subheader('AI-Powered Suggestions')
             suggestions = app_data.get("suggestions", "Continue to develop your skills and experience.")
@@ -976,8 +980,8 @@ def render_landing_page():
     col_logo1, col_logo2, col_logo3 = st.columns([1, 1, 1])
     with col_logo2:
         st.image("logo.png", width=150)
-    
-    st.header("Welcome to the AI Resume Analyzer")
+
+    st.header("Welcome to the AI Resume Relevance Checker")
     st.write("Please select your role to get started.")
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -1047,7 +1051,7 @@ def recruiter_dashboard_page():
     try:
         render_header("Dashboard", "Recruiter View", "https://i.pravatar.cc/40?u=recruiter")
         
-        st.subheader("📊 Dashboard Overview")
+        st.subheader(" Dashboard Overview")
         
         # Get metrics from backend
         api_service = get_api_service()
@@ -1075,7 +1079,7 @@ def recruiter_dashboard_page():
     except Exception as e:
         st.error(f"Error loading dashboard: {str(e)}")
         # Always provide fallback content
-        st.subheader("📊 Dashboard Overview")
+        st.subheader(" Dashboard Overview")
         st.info("Using demo data due to loading error.")
         metrics_data = {
             "Total Candidates": 10,
@@ -1101,20 +1105,15 @@ def recruiter_dashboard_page():
         else:
             candidates = backend_candidates if isinstance(backend_candidates, list) else backend_candidates.get("candidates", [])
             for i, app in enumerate(candidates[:5]):
-                # Extract candidate name from resume filename
-                resume_filename = app.get('resume_filename', '')
-                if resume_filename:
-                    # Extract name from filename like "john_doe_resume.pdf" -> "John Doe"
-                    candidate_name = resume_filename.replace('_resume.pdf', '').replace('_', ' ').replace('.pdf', '').title()
-                    if not candidate_name or candidate_name == '.Pdf':
-                        candidate_name = f"Candidate {app.get('id', 'Unknown')}"
-                else:
-                    candidate_name = f"Candidate {app.get('id', 'Unknown')}"
+                # Use candidate name from backend API response - check multiple possible fields
+                candidate_name = (app.get('candidate_name') or 
+                                 app.get('applicant_name') or 
+                                 app.get('name') or 
+                                 f"Candidate {app.get('id', 'Unknown')}")
+                job_title = app.get('job_role', 'Unknown Position')
+                score = app.get('score', 0)
                 
-                job_title = app.get('job', {}).get('job_title', 'Unknown Position')
-                score = app.get('relevance_score', 0)
-                
-                st.write(f"**{candidate_name}** - {job_title} ({score}%) - {get_tag_html(score)}")
+                st.markdown(f"**{candidate_name}** - {job_title} ({score}%) - {get_tag_html(score)}", unsafe_allow_html=True)
                 
                 
     with col2:
@@ -1124,7 +1123,7 @@ def recruiter_dashboard_page():
         backend_jobs = api_service.get_jobs()
         if "error" in backend_jobs:
             st.write("No jobs data available")
-        elif st.session_state.role == "candidate":
+        else:
             jobs = backend_jobs if isinstance(backend_jobs, list) else backend_jobs.get("jobs", [])
             for i, job in enumerate(jobs):
                 job_title = job.get('job_title', 'Unknown Job')
@@ -1146,22 +1145,72 @@ def recruiter_job_postings_page():
     st.markdown("<br>", unsafe_allow_html=True)
     st.subheader("Active Job Postings")
     
+    # Get backend data for real-time applicant counts and scores
+    api_service = get_api_service()
+    backend_jobs = api_service.get_jobs()
+    backend_candidates = api_service.get_candidates()
+    
+    # Combine session data with backend data for complete job information
     cols = st.columns(2)
     
-    for i, (job_title, data) in enumerate(st.session_state.jobs_data.items()):
-        with cols[i % 2]:
-            st.subheader(job_title)
-            st.write(f"Department: {data['department']}")
-            st.write(f"Applicants: {data['applicants']}")
-            st.write(f"Avg. Score: {data['avg_score']}")
-            
-            if st.button(f"View {job_title} Applicants", key=f"job_card_click_{i}", use_container_width=True, type="primary"):
-                st.session_state.selected_job = job_title
-                st.session_state.page = "job_applicants"
-                st.rerun()
-            
-            if st.button(f"View Job Details", key=f"job_details_{i}", type="secondary", use_container_width=True):
-                job_details_modal(job_title, data)
+    if "error" not in backend_jobs:
+        # Use backend jobs data
+        jobs = backend_jobs if isinstance(backend_jobs, list) else backend_jobs.get("jobs", [])
+        candidates = []
+        if "error" not in backend_candidates:
+            candidates = backend_candidates if isinstance(backend_candidates, list) else backend_candidates.get("candidates", [])
+        
+        for i, job in enumerate(jobs):
+            with cols[i % 2]:
+                job_title = job.get('job_title', 'Unknown Job')
+                job_department = job.get('department', 'Unknown Department')
+                
+                # Calculate real applicant count and average score from backend data
+                job_applicants = [c for c in candidates if c.get('job_id') == job.get('id')]
+                applicant_count = len(job_applicants)
+                
+                if job_applicants:
+                    avg_score = round(sum(c.get('score', 0) for c in job_applicants) / len(job_applicants))
+                else:
+                    avg_score = 0
+                
+                st.subheader(job_title)
+                st.write(f"Department: {job_department}")
+                st.write(f"Applicants: {applicant_count}")
+                st.write(f"Avg. Score: {avg_score}")
+                
+                if st.button(f"View {job_title} Applicants", key=f"job_card_click_{i}", use_container_width=True, type="primary"):
+                    st.session_state.selected_job = job_title
+                    st.session_state.page = "job_applicants"
+                    st.rerun()
+                
+                # Use job data from session state for job details modal if available, otherwise use backend data
+                job_details_data = st.session_state.jobs_data.get(job_title, {
+                    'department': job_department,
+                    'description': job.get('description', 'No description available'),
+                    'requirements': job.get('requirements', []),
+                    'applicants': applicant_count,
+                    'avg_score': avg_score
+                })
+                
+                if st.button(f"View Job Details", key=f"job_details_{i}", type="secondary", use_container_width=True):
+                    job_details_modal(job_title, job_details_data)
+    else:
+        # Fallback to session state data if backend is unavailable
+        for i, (job_title, data) in enumerate(st.session_state.jobs_data.items()):
+            with cols[i % 2]:
+                st.subheader(job_title)
+                st.write(f"Department: {data['department']}")
+                st.write(f"Applicants: {data['applicants']}")
+                st.write(f"Avg. Score: {data['avg_score']}")
+                
+                if st.button(f"View {job_title} Applicants", key=f"job_card_click_{i}", use_container_width=True, type="primary"):
+                    st.session_state.selected_job = job_title
+                    st.session_state.page = "job_applicants"
+                    st.rerun()
+                
+                if st.button(f"View Job Details", key=f"job_details_{i}", type="secondary", use_container_width=True):
+                    job_details_modal(job_title, data)
 
 def recruiter_candidates_page():
     render_header("Candidates", "Recruiter View", "https://i.pravatar.cc/40?u=recruiter")
@@ -1189,20 +1238,18 @@ def recruiter_candidates_page():
         else:
             verdict = 'Medium'
         
-        resume_filename = app.get('resume_filename', '')
-        if resume_filename:
-            candidate_name = resume_filename.replace('_resume.pdf', '').replace('_', ' ').replace('.pdf', '').title()
-            if not candidate_name or candidate_name == '.Pdf':
-                candidate_name = f"Candidate {app.get('id', 'Unknown')}"
-        else:
-            candidate_name = f"Candidate {app.get('id', 'Unknown')}"
+        # Use candidate name from backend API response - check multiple possible fields
+        candidate_name = (app.get('candidate_name') or 
+                         app.get('applicant_name') or 
+                         app.get('name') or 
+                         f"Candidate {app.get('id', 'Unknown')}")
         
         candidate = {
             'id': app.get('id'),
             'name': candidate_name,
-            'job_role': app.get('job', {}).get('job_title', 'Unknown Position'),
+            'job_role': app.get('job_role', 'Unknown Position'),
             'job_id': app.get('job_id'),
-            'score': app.get('relevance_score', 0),
+            'score': app.get('score', 0),
             'verdict': verdict,
             'missing_skills': app.get('missing_skills', []),
             'feedback': app.get('feedback', ''),
@@ -1324,20 +1371,18 @@ def recruiter_reports_page():
         else:
             verdict = 'Medium'
         
-        resume_filename = app.get('resume_filename', '')
-        if resume_filename:
-            candidate_name = resume_filename.replace('_resume.pdf', '').replace('_', ' ').replace('.pdf', '').title()
-            if not candidate_name or candidate_name == '.Pdf':
-                candidate_name = f"Candidate {app.get('id', 'Unknown')}"
-        else:
-            candidate_name = f"Candidate {app.get('id', 'Unknown')}"
+        # Use candidate name from backend API response - check multiple possible fields
+        candidate_name = (app.get('candidate_name') or 
+                         app.get('applicant_name') or 
+                         app.get('name') or 
+                         f"Candidate {app.get('id', 'Unknown')}")
         
         candidate = {
             'id': app.get('id'),
             'name': candidate_name,
-            'job_role': app.get('job', {}).get('job_title', 'Unknown Position'),
+            'job_role': app.get('job_role', 'Unknown Position'),
             'job_id': app.get('job_id'),
-            'score': app.get('relevance_score', 0),
+            'score': app.get('score', 0),
             'verdict': verdict,
             'missing_skills': app.get('missing_skills', []),
             'feedback': app.get('feedback', ''),
@@ -1416,6 +1461,14 @@ def help_and_support_page():
     render_header("Help & Support", (st.session_state.role.capitalize() if st.session_state.role else "Guest") + " View", "https://i.pravatar.cc/40?u=recruiter" if st.session_state.role == 'recruiter' else "https://i.pravatar.cc/40?u=candidate")
 
     st.subheader("Frequently Asked Questions")
+
+    # Add back to home button for guests
+    if st.session_state.role is None:
+        if st.button(" Back to Home", key="back_to_home"):
+            st.session_state.page = "home"
+            st.rerun()
+        st.markdown("---")
+
     
     faqs = [
         "How does the AI analysis work?", 
@@ -1426,7 +1479,7 @@ def help_and_support_page():
     ]
     
     for faq in faqs:
-        st.write(f"❓ {faq}")
+        st.write(f" {faq}")
     
     st.subheader("Contact Support")
     
@@ -1441,21 +1494,11 @@ def help_and_support_page():
         st.write("Live Chat")
         st.write("Chat with a support agent now")
         
-        if st.button("🚀 Start Chat", type="primary", use_container_width=True):
+        if st.button(" Start Chat", type="primary", use_container_width=True):
             st.success("Chat feature coming soon!")
     
     st.markdown("---")
-    st.subheader("Need More Help?")
-    st.write("Our comprehensive documentation and video tutorials can help you get the most out of the AI Resume Analyzer.")
     
-    col_docs, col_tutorials, col_forum = st.columns(3)
-    with col_docs:
-        st.button("📚 Documentation", use_container_width=True)
-    with col_tutorials:
-        st.button("🎥 Video Tutorials", use_container_width=True)
-    with col_forum:
-        st.button("🤝 Community Forum", use_container_width=True)
-
 
 def candidate_dashboard_page():
     render_header("Dashboard", "Student View", "https://i.pravatar.cc/40?u=candidate")
@@ -1467,7 +1510,132 @@ def candidate_dashboard_page():
         st.rerun()
     
     st.subheader("My Applications")
-    st.write("No applications submitted yet. Browse job postings to apply for positions.")
+    
+    # Get applications from multiple sources
+    session_applications = st.session_state.get('new_applications', [])
+    backend_applications = []
+    
+    # For now, prioritize session applications since they represent the current user's submissions
+    # Backend integration for candidate applications would require user authentication
+    if st.session_state.get('use_backend', False) and len(session_applications) == 0:
+        # Only try backend if no session applications (fallback scenario)
+        try:
+            api_service = get_api_service()
+            backend_candidates = api_service.get_candidates()
+            
+            if not backend_candidates.get('error'):
+                candidates = backend_candidates if isinstance(backend_candidates, list) else backend_candidates.get("candidates", [])
+                # Transform backend data to match expected format
+                # Note: In a real app, you'd filter by user_id to show only user's applications
+                for candidate in candidates[-3:]:  # Show only last 3 as examples
+                    # Extract job title properly
+                    job_title = "Unknown Position"
+                    if candidate.get('job') and isinstance(candidate['job'], dict):
+                        job_title = candidate['job'].get('job_title', 'Unknown Position')
+                    elif candidate.get('job_title'):
+                        job_title = candidate['job_title']
+                    
+                    backend_app = {
+                        'name': f"Sample Application {candidate.get('id', 'Unknown')}",
+                        'job_role': job_title,
+                        'score': candidate.get('relevance_score', 0),
+                        'verdict': candidate.get('verdict', 'Medium'),
+                        'missing_skills': candidate.get('missing_skills', []),
+                        'feedback': candidate.get('feedback', 'Application processed successfully.'),
+                        'resume_file': candidate.get('resume_filename', 'resume.pdf'),
+                        'application_date': candidate.get('application_date', ''),
+                        'application_id': candidate.get('id')
+                    }
+                    backend_applications.append(backend_app)
+        except Exception as e:
+            st.info("Could not load applications from backend.")
+    
+    # Combine applications (prioritize session data for current user)
+    all_applications = session_applications + backend_applications
+    
+    if not all_applications:
+        st.write("No applications submitted yet. Browse job postings to apply for positions.")
+    else:
+        # Show different messages based on data source
+        if session_applications:
+            st.write(f"You have submitted **{len(session_applications)}** application(s) in this session:")
+            if backend_applications:
+                st.info(f" Plus {len(backend_applications)} sample applications from backend for reference")
+        else:
+            st.info(f" Showing {len(backend_applications)} sample applications from backend (for demo purposes)")
+        
+        # Display applications in a nice format
+        for i, app in enumerate(all_applications):
+            with st.container():
+                col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
+                
+                with col1:
+                    st.write(f"**{app.get('job_role', 'Unknown Position')}**")
+                    resume_file = app.get('resume_file', 'N/A')
+                    st.caption(f"Resume: {resume_file}")
+                    # Show application date if available
+                    if app.get('application_date'):
+                        try:
+                            from datetime import datetime
+                            dt = datetime.fromisoformat(app['application_date'].replace('Z', '+00:00'))
+                            formatted_date = dt.strftime('%b %d, %Y')
+                            st.caption(f"Applied: {formatted_date}")
+                        except:
+                            st.caption(f"Applied: {app['application_date'][:10]}")
+                    elif app.get('application_id'):
+                        st.caption(f"ID: {app['application_id']}")
+                
+                with col2:
+                    score = app.get('score', 0)
+                    if score >= 80:
+                        st.success(f"Score: {score}/100")
+                    elif score >= 60:
+                        st.warning(f"Score: {score}/100")
+                    else:
+                        st.error(f"Score: {score}/100")
+                
+                with col3:
+                    verdict = app.get('verdict', 'Pending')
+                    # Handle different verdict formats
+                    if 'High' in str(verdict):
+                        st.success(f" High Match")
+                    elif 'Medium' in str(verdict):
+                        st.warning(f" Medium Match")
+                    elif 'Low' in str(verdict):
+                        st.error(f" Low Match")
+                    else:
+                        st.info(f" {verdict}")
+                
+                with col4:
+                    if st.button("View", key=f"view_app_{i}", type="secondary"):
+                        # Create application data in the format expected by the modal
+                        app_data = {
+                            'name': app.get('name', 'You'),
+                            'job_role': app.get('job_role', 'Unknown Position'),
+                            'score': app.get('score', 0),
+                            'verdict': app.get('verdict', 'Medium'),
+                            'missing_skills': app.get('missing_skills', []),
+                            'feedback': app.get('feedback', 'Application processed successfully.'),
+                            'resume_file': app.get('resume_file', 'resume.pdf'),
+                            'application_date': app.get('application_date', ''),
+                            'application_id': app.get('application_id')
+                        }
+                        view_details_modal(app_data)
+                
+                st.divider()
+        
+        # Add summary stats
+        if len(all_applications) > 1:
+            avg_score = sum(app.get('score', 0) for app in all_applications) / len(all_applications)
+            high_matches = len([app for app in all_applications if app.get('verdict') == 'High'])
+            
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Total Applications", len(all_applications))
+            with col2:
+                st.metric("Average Score", f"{avg_score:.1f}/100")
+            with col3:
+                st.metric("High Matches", high_matches)
 
 def candidate_job_postings_page():
     render_header("Job Postings", "Student View", "https://i.pravatar.cc/40?u=candidate")
@@ -1485,7 +1653,7 @@ def candidate_job_postings_page():
             st.write(f"Applicants: {data['applicants']}")
             st.write(f"Avg. Score: {data['avg_score']}")
             
-            if st.button(f"View Details • Quick Apply", key=f"candidate_job_action_{i}", type="primary", use_container_width=True):
+            if st.button(f"View Details  Quick Apply", key=f"candidate_job_action_{i}", type="primary", use_container_width=True):
                 job_details_modal(job_title, data)
                 st.success(f"Applied to {job_title}!")
 
@@ -1498,7 +1666,7 @@ def job_applicants_page():
     
     col1, col2 = st.columns([1, 5])
     with col1:
-        if st.button("← Back to All Jobs", key="back_to_jobs"):
+        if st.button(" Back to All Jobs", key="back_to_jobs"):
             st.session_state.page = "job_postings"
             st.session_state.selected_job = None
             st.rerun()
@@ -1516,7 +1684,7 @@ def job_applicants_page():
         return
     
     candidates = backend_candidates if isinstance(backend_candidates, list) else backend_candidates.get("candidates", [])
-    job_candidates = [cand for cand in candidates if cand.get('job', {}).get('job_title') == job_title]
+    job_candidates = [cand for cand in candidates if cand.get('job_role') == job_title]
     
     if not job_candidates:
         st.info(f"No applicants found for {job_title}")
@@ -1534,16 +1702,14 @@ def job_applicants_page():
     for i, cand in enumerate(job_candidates):
         row_col1, row_col2, row_col3, row_col4, row_col5 = st.columns([2, 2, 1, 2, 1])
         
-        resume_filename = cand.get('resume_filename', '')
-        if resume_filename:
-            candidate_name = resume_filename.replace('_resume.pdf', '').replace('_', ' ').replace('.pdf', '').title()
-            if not candidate_name or candidate_name == '.Pdf':
-                candidate_name = f"Candidate {cand.get('id', 'Unknown')}"
-        elif st.session_state.role == "candidate":
-            candidate_name = f"Candidate {cand.get('id', 'Unknown')}"
+        # Use candidate name from backend API response - check multiple possible fields
+        candidate_name = (cand.get('candidate_name') or 
+                         cand.get('applicant_name') or 
+                         cand.get('name') or 
+                         f"Candidate {cand.get('id', 'Unknown')}")
         
-        job_role = cand.get('job', {}).get('job_title', 'Unknown Position')
-        score = cand.get('relevance_score', 0)
+        job_role = cand.get('job_role', 'Unknown Position')
+        score = cand.get('score', 0)
         verdict = cand.get('verdict', 'Medium')
         
         if 'High' in verdict:
@@ -1552,7 +1718,7 @@ def job_applicants_page():
             verdict = 'Medium'
         elif 'Low' in verdict:
             verdict = 'Low'
-        elif st.session_state.role == "candidate":
+        else:
             verdict = 'Medium'
         
         with row_col1:
@@ -1591,7 +1757,10 @@ def job_applicants_page():
 try:
     if "role" not in st.session_state or st.session_state.role is None:
         render_sidebar()
-        render_landing_page()
+        if st.session_state.page == "help_support":
+            help_and_support_page()
+        else:
+            render_landing_page()
     else:
         render_sidebar()
 
@@ -1609,7 +1778,7 @@ try:
                     recruiter_reports_page()
                 elif st.session_state.page == "help_support":
                     help_and_support_page()
-                elif st.session_state.role == "candidate":
+                else:
                     recruiter_dashboard_page()
             elif st.session_state.role == "candidate":
                 if st.session_state.page == "dashboard":
@@ -1618,45 +1787,48 @@ try:
                     candidate_job_postings_page()
                 elif st.session_state.page == "help_support":
                     help_and_support_page()
-                elif st.session_state.role == "candidate":
+                else:
                     candidate_dashboard_page()
         except Exception as e:
             st.error(f"Error loading page content: {str(e)}")
             st.info("Please try refreshing the page or contact support if the issue persists.")
-            st.markdown("### Welcome to AI Resume Analyzer")
+            st.markdown("### Welcome to AI Resume Relevance Checker")
             st.markdown("There was an error loading the page content. Please try:")
             st.markdown("- Refreshing the page")
             st.markdown("- Clearing your browser cache")
             st.markdown("- Using the navigation menu")
+        
+        # Handle application feedback modal (moved outside exception handler)
+        if st.session_state.get('show_application_feedback', False):
+            backend_result = st.session_state.get('feedback_backend_result')
+            
+            if backend_result and not backend_result.get('error'):
+                feedback_app_data = {
+                    'job_title': st.session_state.get('feedback_job_title', 'Unknown'),
+                    'score': backend_result.get('relevance_score', 75),
+                    'verdict': backend_result.get('verdict', 'Medium'),
+                    'missing_skills': backend_result.get('missing_skills', []),
+                    'feedback': backend_result.get('feedback', 'Application processed successfully.'),
+                    'application_id': backend_result.get('id'),
+                    'resume_filename': backend_result.get('resume_filename', 'resume.pdf'),
+                    'application_date': backend_result.get('application_date')
+                }
+            else:
+                # Fallback feedback data when backend fails
+                feedback_app_data = {
+                    'job_title': st.session_state.get('feedback_job_title', 'Unknown'),
+                    'score': 82,
+                    'summary': 'A promising candidate with a good foundation in frontend technologies.',
+                    'focus_areas': ['Next.js', 'Storybook'],
+                    'suggestions': 'Your React skills are strong. To better match the role, gain some experience with server-side rendering using Next.js and documenting components with Storybook.'
+                }
+            
+            # Reset the flag and show the modal
+            st.session_state.show_application_feedback = False
+            application_feedback_modal(feedback_app_data)
 
 except Exception as e:
     st.error(f"Critical error in main app logic: {str(e)}")
     st.info("Please refresh the page to continue.")
-    st.markdown("### AI Resume Analyzer")
+    st.markdown("### AI Resume Relevance Checker")
     st.markdown("Please refresh the page to start using the application.")
-
-    if st.session_state.get('show_application_feedback', False):
-        backend_result = st.session_state.get('feedback_backend_result')
-        
-        if backend_result and not backend_result.get('error'):
-            feedback_app_data = {
-                'job_title': st.session_state.get('feedback_job_title', 'Unknown'),
-                'score': backend_result.get('relevance_score', 75),
-                'verdict': backend_result.get('verdict', 'Medium'),
-                'missing_skills': backend_result.get('missing_skills', []),
-                'feedback': backend_result.get('feedback', 'Application processed successfully.'),
-                'application_id': backend_result.get('id'),
-                'resume_filename': backend_result.get('resume_filename', 'resume.pdf'),
-                'application_date': backend_result.get('application_date')
-            }
-        elif st.session_state.role == "candidate":
-            feedback_app_data = {
-                'job_title': st.session_state.get('feedback_job_title', 'Unknown'),
-                'score': 82,
-                'summary': 'A promising candidate with a good foundation in frontend technologies.',
-                'focus_areas': ['Next.js', 'Storybook'],
-                'suggestions': 'Your React skills are strong. To better match the role, gain some experience with server-side rendering using Next.js and documenting components with Storybook.'
-            }
-        
-        st.session_state.show_application_feedback = False
-        application_feedback_modal(feedback_app_data)
