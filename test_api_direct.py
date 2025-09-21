@@ -61,7 +61,7 @@ def test_get_candidates_api(base_url: str) -> Dict:
         return {"error": error_msg}
 
 if __name__ == "__main__":
-    backend_url = "https://ancient-selections-broad-logical.trycloudflare.com"
+    backend_url = "https://innomaticshackathonbackend-production.up.railway.app"
     
     print(f"Testing get_candidates API with URL: {backend_url}")
     print("=" * 60)

@@ -22,7 +22,7 @@ if "show_application_feedback" not in st.session_state:
 if "selected_job" not in st.session_state:
     st.session_state.selected_job = None
 if "backend_url" not in st.session_state:
-    st.session_state.backend_url = "https://synthetic-city-jimmy-demonstrates.trycloudflare.com"  # Default backend URL
+    st.session_state.backend_url = "https://innomaticshackathonbackend-production.up.railway.app"  # Default backend URL
 if "use_backend" not in st.session_state:
     st.session_state.use_backend = True  # Toggle between backend and mock data
 if "jobs_data" not in st.session_state:
@@ -1716,22 +1716,45 @@ def render_header(title, subtitle, avatar_url=None):
 
 # --- PAGES ---
 def recruiter_dashboard_page():
-    render_header("Dashboard", "Recruiter View", "https://i.pravatar.cc/40?u=recruiter")
-    
-    # Get metrics from backend
-    api_service = get_api_service()
-    backend_metrics = api_service.get_metrics()
-    
-    if "error" in backend_metrics:
-        st.error(f"Could not load dashboard metrics: {backend_metrics.get('error', 'Unknown error')}")
-        return
-    
-    metrics_data = {
-        "Total Candidates": backend_metrics.get("total_applications", 0),
-        "Open Positions": backend_metrics.get("open_positions", 0),
-        "High-Fit Candidates": backend_metrics.get("high_fit_candidates", 0),
-        "Avg. Score": int(backend_metrics.get("avg_score", 0))
-    }
+    try:
+        render_header("Dashboard", "Recruiter View", "https://i.pravatar.cc/40?u=recruiter")
+        
+        # Always show something first so user knows page is loading
+        st.markdown("### 📊 Dashboard Overview")
+        
+        # Get metrics from backend
+        api_service = get_api_service()
+        backend_metrics = api_service.get_metrics()
+        
+        if "error" in backend_metrics:
+            st.error(f"Could not load dashboard metrics: {backend_metrics.get('error', 'Unknown error')}")
+            st.info("Displaying demo data while backend is unavailable.")
+            
+            # Use fallback demo data
+            metrics_data = {
+                "Total Candidates": 24,
+                "Open Positions": 3,
+                "High-Fit Candidates": 8,
+                "Avg. Score": 76
+            }
+        else:
+            metrics_data = {
+                "Total Candidates": backend_metrics.get("total_applications", 0),
+                "Open Positions": backend_metrics.get("open_positions", 0),
+                "High-Fit Candidates": backend_metrics.get("high_fit_candidates", 0),
+                "Avg. Score": int(backend_metrics.get("avg_score", 0))
+            }
+    except Exception as e:
+        st.error(f"Error loading dashboard: {str(e)}")
+        # Always provide fallback content
+        st.markdown("### 📊 Dashboard Overview")
+        st.info("Using demo data due to loading error.")
+        metrics_data = {
+            "Total Candidates": 10,
+            "Open Positions": 2,
+            "High-Fit Candidates": 4,
+            "Avg. Score": 65
+        }
     
     st.markdown('<div class="card-grid">', unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
@@ -2523,40 +2546,61 @@ def job_applicants_page():
 
 
 # --- Main App Logic ---
-if st.session_state.role is None:
-    # Home page - no sidebar, full width content
-    render_landing_page()
-else:
-    # Render sidebar
-    render_sidebar()
-    
-    # Main content without container columns - this allows proper centering
-    if st.session_state.role == "recruiter":
-        if st.session_state.page == "dashboard":
-            recruiter_dashboard_page()
-        elif st.session_state.page == "job_postings":
-            recruiter_job_postings_page()
-        elif st.session_state.page == "job_applicants":
-            job_applicants_page()
-        elif st.session_state.page == "candidates":
-            recruiter_candidates_page()
-        elif st.session_state.page == "reports":
-            recruiter_reports_page()
-        
-        elif st.session_state.page == "help_support":
-            help_and_support_page()
-        else:
-            recruiter_dashboard_page()
+try:
+    # Ensure session state is properly initialized
+    if "role" not in st.session_state or st.session_state.role is None:
+        # Home page - no sidebar, full width content
+        render_landing_page()
     else:
-        if st.session_state.page == "dashboard":
-            candidate_dashboard_page()
-        elif st.session_state.page == "job_postings":
-            candidate_job_postings_page()
+        # Render sidebar first
+        render_sidebar()
+        
        
-        elif st.session_state.page == "help_support":
-            help_and_support_page()
-        else:
-            candidate_dashboard_page()
+        
+        # Main content area - wrap in container for better error handling
+        try:
+            if st.session_state.role == "recruiter":
+                if st.session_state.page == "dashboard":
+                    recruiter_dashboard_page()
+                elif st.session_state.page == "job_postings":
+                    recruiter_job_postings_page()
+                elif st.session_state.page == "job_applicants":
+                    job_applicants_page()
+                elif st.session_state.page == "candidates":
+                    recruiter_candidates_page()
+                elif st.session_state.page == "reports":
+                    recruiter_reports_page()
+                elif st.session_state.page == "help_support":
+                    help_and_support_page()
+                else:
+                    # Default to dashboard if page is unknown
+                    recruiter_dashboard_page()
+            else:  # candidate role
+                if st.session_state.page == "dashboard":
+                    candidate_dashboard_page()
+                elif st.session_state.page == "job_postings":
+                    candidate_job_postings_page()
+                elif st.session_state.page == "help_support":
+                    help_and_support_page()
+                else:
+                    # Default to dashboard if page is unknown
+                    candidate_dashboard_page()
+        except Exception as e:
+            st.error(f"Error loading page content: {str(e)}")
+            st.info("Please try refreshing the page or contact support if the issue persists.")
+            # Show basic fallback content
+            st.markdown("### Welcome to AI Resume Analyzer")
+            st.markdown("There was an error loading the page content. Please try:")
+            st.markdown("- Refreshing the page")
+            st.markdown("- Clearing your browser cache")
+            st.markdown("- Using the navigation menu")
+
+except Exception as e:
+    st.error(f"Critical error in main app logic: {str(e)}")
+    st.info("Please refresh the page to continue.")
+    # Emergency fallback
+    st.markdown("### AI Resume Analyzer")
+    st.markdown("Please refresh the page to start using the application.")
 
     # Handle application feedback modal (when coming from job application)
     if st.session_state.get('show_application_feedback', False):

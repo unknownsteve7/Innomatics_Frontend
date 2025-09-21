@@ -3,7 +3,7 @@
 import requests
 
 def test_metrics_endpoint():
-    backend_url = "https://ancient-selections-broad-logical.trycloudflare.com"
+    backend_url = "https://innomaticshackathonbackend-production.up.railway.app"
     
     try:
         print(f"Testing /metrics/ endpoint at: {backend_url}")
