@@ -262,6 +262,7 @@ def generate_demo_job_data(filename):
             "requirements": "• Strong SQL skills\n• Experience with Python/R\n• Data visualization tools\n• Statistical analysis background"
         }
     else:
+        # Default fallback for any filename that doesn't match patterns
         return {
             "job_title": "Software Engineer",
             "department": "Engineering",
@@ -383,10 +384,10 @@ st.markdown("""
         max-width: none;
     }
     /* Hide only Streamlit's default page navigation, keep custom content */
-    [data-testid="stSidebarNav"] {
+            [data-testid="stSidebarNav"] {
         display: none !important;
     }
-    [data-testid="stSidebarNavItems"] {
+            [data-testid="stSidebarNavItems"] {
         display: none !important;
     }
     /* Enhanced sidebar button styling */
@@ -738,7 +739,7 @@ def get_tag_html(score, verdict=None):
             return '<span class="tag-high">High Fit</span>'
         elif verdict_lower in ['medium', 'moderate', 'average']:
             return '<span class="tag-medium">Medium Fit</span>'
-        else:  # low, poor, weak, etc.
+        elif st.session_state.role == "candidate":  # low, poor, weak, etc.
             return '<span class="tag-low">Low Fit</span>'
     
     # Fallback to score-based calculation
@@ -824,7 +825,7 @@ def analyze_resume_modal():
                 st.error("Please upload job description file")
             elif not resume_file:
                 st.error("Please upload resume file")
-            else:
+            elif st.session_state.role == "candidate":
                 # Success - would run analysis here
                 st.success(f"Starting analysis for {candidate_name} - {job_role}")
                 # Close modal after short delay
@@ -903,7 +904,7 @@ def view_details_modal(candidate_data):
                     </p>
                 </div>
                 """, unsafe_allow_html=True)
-            else:
+            elif st.session_state.role == "candidate":
                 st.success("No missing skills identified! This candidate has excellent skill alignment.")
         
         with tabs[2]:
@@ -921,7 +922,7 @@ def view_details_modal(candidate_data):
                 st.success("This candidate is highly recommended for this position!")
             elif verdict == 'medium':
                 st.info("This candidate shows potential with some areas for improvement.")
-            else:
+            elif st.session_state.role == "candidate":
                 st.warning("This candidate may need significant development to fit this role.")
         
         with tabs[3]:
@@ -948,7 +949,7 @@ def view_details_modal(candidate_data):
                 st.markdown(f"**Relevance Score:** {candidate_data['score']}/100")
                 st.markdown(f"**Final Verdict:** {candidate_data.get('verdict', 'Medium')}")
     
-    else:
+    elif st.session_state.role == "candidate":
         # Original tabs for legacy data
         tabs = st.tabs(["👤 Overview", "💡 AI Feedback", "📊 Comparison"])
         
@@ -987,7 +988,7 @@ def view_details_modal(candidate_data):
                         <span>{gap}</span>
                     </div>
                     """, unsafe_allow_html=True)
-            else:
+            elif st.session_state.role == "candidate":
                 st.success("No significant gaps identified!")
                 
             st.markdown("---")
@@ -1018,7 +1019,7 @@ def view_details_modal(candidate_data):
                 st.success(f"This candidate scored {candidate_data['score'] - avg_score} points above average!")
             elif candidate_data['score'] < avg_score:
                 st.warning(f"This candidate scored {avg_score - candidate_data['score']} points below average.")
-            else:
+            elif st.session_state.role == "candidate":
                 st.info("This candidate scored exactly at the average level.")
     
     with tabs[1]:
@@ -1031,7 +1032,7 @@ def view_details_modal(candidate_data):
                     <span>{gap}</span>
                 </div>
                 """, unsafe_allow_html=True)
-        else:
+        elif st.session_state.role == "candidate":
             st.success("No significant gaps identified!")
             
         st.markdown("---")
@@ -1062,7 +1063,7 @@ def view_details_modal(candidate_data):
             st.success(f"This candidate scores {candidate_data['score'] - avg_score} points above average!")
         elif candidate_data['score'] < avg_score:
             st.warning(f"This candidate scores {avg_score - candidate_data['score']} points below average.")
-        else:
+        elif st.session_state.role == "candidate":
             st.info("This candidate scores exactly at the average.")
 
 @st.dialog("💼 Job Details")
@@ -1133,7 +1134,7 @@ def job_details_modal(job_title, job_data):
                 <p style="color: #15803d; margin: 0; font-weight: 600;">Resume uploaded successfully!</p>
             </div>
             """, unsafe_allow_html=True)
-        else:
+        elif st.session_state.role == "candidate":
             st.markdown("""
             <div style="border: 2px dashed #cbd5e1; border-radius: 12px; padding: 48px 20px; text-align: center; margin: 20px 0; background: #fafbfc;">
                 <div style="color: #94a3b8; font-size: 3.5rem; margin-bottom: 16px;">📄</div>
@@ -1184,14 +1185,14 @@ def job_details_modal(job_title, job_data):
                 success_message = "🎉 Application submitted!"
                 if st.session_state.use_backend and backend_result:
                     success_message += f" Score: {backend_result.get('relevance_score', 'N/A')}"
-                else:
+                elif st.session_state.role == "candidate":
                     success_message += " You'll receive feedback within 24 hours."
                     
                 st.success(success_message)
                 
                 # Close current modal and show feedback
                 st.rerun()
-            else:
+            elif st.session_state.role == "candidate":
                 st.error("Please upload your resume first!")
         
         st.markdown("<br>", unsafe_allow_html=True)
@@ -1409,7 +1410,7 @@ def create_job_posting_modal():
                     st.success(f" Job posting '{job_title}' created successfully!")
                     if st.session_state.use_backend:
                         st.info(" Synced with backend API")
-                else:
+                elif st.session_state.role == "candidate":
                     st.warning(f" Job '{job_title}' created locally but backend sync failed")
                 
                 # Clear parsed data from session state
@@ -1428,7 +1429,7 @@ def create_job_posting_modal():
                 import time
                 time.sleep(1)
                 st.rerun()
-            else:
+            elif st.session_state.role == "candidate":
                 st.error(" Please fill in all required fields")
 
 @st.dialog("Application Feedback") 
@@ -1491,18 +1492,18 @@ def application_feedback_modal(app_data):
             if missing_skills:
                 for skill in missing_skills:
                     st.markdown(f'<p style="display: flex; align-items: center; gap: 8px; color: #EF4444;"><span style="font-size: 1.25em; line-height: 1; color: inherit;">&times;</span> {skill}</p>', unsafe_allow_html=True)
-            else:
+            elif st.session_state.role == "candidate":
                 st.markdown('<p style="color: #10b981;">✓ No missing skills identified!</p>', unsafe_allow_html=True)
             
             st.markdown('### Recommendations')
             if missing_skills:
                 recommendations = f"Consider developing skills in: {', '.join(missing_skills[:3])}. These areas would significantly improve your match for this role."
-            else:
+            elif st.session_state.role == "candidate":
                 recommendations = "Great job! Your skills align well with the job requirements. Continue to strengthen your existing expertise."
             
             st.markdown(f'<div style="background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; padding: 16px; margin-top: 12px;"><p style="color: #92400e; margin: 0; line-height: 1.6;">{recommendations}</p></div>', unsafe_allow_html=True)
     
-    else:
+    elif st.session_state.role == "candidate":
         # Use original format for fallback data
         tab1, tab2 = st.tabs([" Overview", " Improvement Plan"])
         
@@ -1529,10 +1530,10 @@ def application_feedback_modal(app_data):
 
 # --- MAIN APP LAYOUTS ---
 def render_landing_page():
-    # Hide the sidebar on landing page and adjust main content
+    # Sidebar visible on landing page - updated styling for consistency
     st.markdown("""
     <style>
-        .stSidebar {
+        /* .stSidebar {
             display: none !important;
         }
         .main .block-container {
@@ -1602,14 +1603,14 @@ def render_sidebar():
     st.markdown("""
     <style>
         /* Hide only the default Streamlit navigation */
-        [data-testid="stSidebarNav"] {
+                [data-testid="stSidebarNav"] {
             display: none !important;
         }
-        [data-testid="stSidebarNavItems"] {
+                [data-testid="stSidebarNavItems"] {
             display: none !important;
         }
         /* Custom sidebar background */
-        .stSidebar {
+        /* .stSidebar {
             background: black !important;
         }
         .stSidebar > div {
@@ -1668,7 +1669,7 @@ def render_sidebar():
     </style>
     """, unsafe_allow_html=True)
     
-    role = st.session_state.role
+    role = st.session_state.role or "guest"
     current_page = st.session_state.page
     
     # Enhanced logo section with role badge
@@ -1693,11 +1694,15 @@ def render_sidebar():
             (" Candidates", "candidates"),
             (" Reports", "reports"), 
         ]
-    else:
+    elif role == "candidate":
         nav_items = [
-            (" Dashboard", "dashboard"), 
-            (" Job Postings", "job_postings"), 
+            (" Dashboard", "dashboard"),
+            (" Job Postings", "job_postings"),
         ]
+    else:
+        # Guest role - no navigation items
+        nav_items = []
+
         
     for name, page in nav_items:
         if st.sidebar.button(name, key=f"nav_{page}", use_container_width=True):
@@ -1746,6 +1751,7 @@ def recruiter_dashboard_page():
                 "Avg. Score": 76
             }
         else:
+            # Use actual backend data
             metrics_data = {
                 "Total Candidates": backend_metrics.get("total_applications", 0),
                 "Open Positions": backend_metrics.get("open_positions", 0),
@@ -1819,7 +1825,7 @@ def recruiter_dashboard_page():
         backend_jobs = api_service.get_jobs()
         if "error" in backend_jobs:
             st.write("No jobs data available")
-        else:
+        elif st.session_state.role == "candidate":
             jobs = backend_jobs if isinstance(backend_jobs, list) else backend_jobs.get("jobs", [])
             for i, job in enumerate(jobs):
                 job_title = job.get('job_title', 'Unknown Job')
@@ -1984,7 +1990,7 @@ def recruiter_candidates_page():
     
     if active_filters:
         st.markdown(f"**Showing {len(filtered_candidates)} candidates** | Active filters: {' • '.join(active_filters)}")
-    else:
+    elif st.session_state.role == "candidate":
         st.markdown(f"**Showing all {len(filtered_candidates)} candidates**")
     
     # Display filtered candidates
@@ -2024,7 +2030,7 @@ def recruiter_candidates_page():
             # Add separator between rows
             if i < len(filtered_candidates) - 1:
                 st.markdown("---")
-    else:
+    elif st.session_state.role == "candidate":
         st.info("No candidates match the current filter criteria. Try adjusting your search terms.")
     
     st.markdown('</div>', unsafe_allow_html=True)
@@ -2166,7 +2172,7 @@ def recruiter_reports_page():
             bar_color = "#6366f1"  # Blue
         elif score >= 60:
             bar_color = "#f59e0b"  # Orange
-        else:
+        elif st.session_state.role == "candidate":
             bar_color = "#ef4444"  # Red
         
         st.markdown(f'''
@@ -2494,7 +2500,7 @@ def job_applicants_page():
             candidate_name = resume_filename.replace('_resume.pdf', '').replace('_', ' ').replace('.pdf', '').title()
             if not candidate_name or candidate_name == '.Pdf':
                 candidate_name = f"Candidate {cand.get('id', 'Unknown')}"
-        else:
+        elif st.session_state.role == "candidate":
             candidate_name = f"Candidate {cand.get('id', 'Unknown')}"
         
         job_role = cand.get('job', {}).get('job_title', 'Unknown Position')
@@ -2508,7 +2514,7 @@ def job_applicants_page():
             verdict = 'Medium'
         elif 'Low' in verdict:
             verdict = 'Low'
-        else:
+        elif st.session_state.role == "candidate":
             verdict = 'Medium'
         
         with row_col1:
@@ -2557,14 +2563,14 @@ def job_applicants_page():
 try:
     # Ensure session state is properly initialized
     if "role" not in st.session_state or st.session_state.role is None:
-        # Home page - no sidebar, full width content
+        # Home page - with sidebar visible
+        # Home page - with sidebar visible
+        render_sidebar()
         render_landing_page()
     else:
         # Render sidebar first
         render_sidebar()
-        
-       
-        
+
         # Main content area - wrap in container for better error handling
         try:
             if st.session_state.role == "recruiter":
@@ -2580,17 +2586,17 @@ try:
                     recruiter_reports_page()
                 elif st.session_state.page == "help_support":
                     help_and_support_page()
-                else:
+                elif st.session_state.role == "candidate":
                     # Default to dashboard if page is unknown
                     recruiter_dashboard_page()
-            else:  # candidate role
+            elif st.session_state.role == "candidate":  # candidate role
                 if st.session_state.page == "dashboard":
                     candidate_dashboard_page()
                 elif st.session_state.page == "job_postings":
                     candidate_job_postings_page()
                 elif st.session_state.page == "help_support":
                     help_and_support_page()
-                else:
+                elif st.session_state.role == "candidate":
                     # Default to dashboard if page is unknown
                     candidate_dashboard_page()
         except Exception as e:
@@ -2627,7 +2633,7 @@ except Exception as e:
                 'resume_filename': backend_result.get('resume_filename', 'resume.pdf'),
                 'application_date': backend_result.get('application_date')
             }
-        else:
+        elif st.session_state.role == "candidate":
             # Fallback to mock data if backend failed or not available
             feedback_app_data = {
                 'job_title': st.session_state.get('feedback_job_title', 'Unknown'),
