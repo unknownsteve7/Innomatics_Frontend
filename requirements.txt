@@ -1,0 +1,18 @@
+# Core Streamlit and web framework dependencies
+streamlit>=1.28.0
+requests>=2.31.0
+
+# Data processing and manipulation
+pandas>=1.5.0
+numpy>=1.24.0
+
+# Additional utilities that might be needed
+python-dotenv>=1.0.0  # For environment variables
+plotly>=5.15.0        # For advanced charts/visualizations
+pillow>=9.5.0         # For image processing
+
+# Optional: Authentication and security
+streamlit-authenticator>=0.2.3
+
+# Optional: File handling
+python-multipart>=0.0.6
