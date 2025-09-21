@@ -311,7 +311,7 @@ def get_api_service() -> BackendAPIService:
     Uses session state backend URL instead of secrets
     """
     # Use session state backend URL (set in app.py initialization)
-    backend_url = st.session_state.get("backend_url", "https://synthetic-city-jimmy-demonstrates.trycloudflare.com")
+    backend_url = st.session_state.get("backend_url", "https://innomaticshackathonbackend-production.up.railway.app")
     
     return BackendAPIService(backend_url)
 

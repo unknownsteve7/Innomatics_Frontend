@@ -28,6 +28,14 @@ if "use_backend" not in st.session_state:
 if "jobs_data" not in st.session_state:
     st.session_state.jobs_data = {}  # Initialize jobs data
 
+# Clear any cached API service with old URL
+if hasattr(st, '_legacy_caching') or hasattr(st.cache_data, 'clear'):
+    try:
+        from services.api_service import get_api_service
+        get_api_service.clear()  # Clear cached API service
+    except:
+        pass  # Ignore if cache clearing fails
+
 # Auto-sync from backend if enabled and not already synced
 if "backend_synced" not in st.session_state:
     st.session_state.backend_synced = False
