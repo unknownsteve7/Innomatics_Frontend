@@ -1,9 +1,9 @@
 import streamlit as st
 from streamlit.components.v1 import html
 
-# Inject custom CSS
-with open('styles/main.css') as f:
-    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+# Inject custom CSS - DISABLED to prevent layout interference
+# with open('styles/main.css') as f:
+#     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # Main content for the landing page
 st.markdown('<div style="text-align:center; padding-top: 50px;">', unsafe_allow_html=True)
