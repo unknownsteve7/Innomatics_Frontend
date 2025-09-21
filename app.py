@@ -270,455 +270,6 @@ def generate_demo_job_data(filename):
             "requirements": "• Bachelor's degree in Computer Science or related field\n• 2+ years of software development experience\n• Strong programming fundamentals\n• Collaborative team player"
         }
 
-# --- CUSTOM CSS ---
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-    html, body, [class*="st-"] {
-        font-family: 'Inter', sans-serif;
-    }
-    h1, h2, h3, h4, h5, h6, .card-title {
-        font-family: 'Poppins', sans-serif;
-    }
-    body {
-        background-color: #f0f2f6;
-    }
-    .sidebar-wrapper {
-        position: fixed;
-        width: 256px;
-        background-color: black;
-        color: white;
-        padding: 1.5rem 1rem;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        z-index: 1000;
-        top: 0;
-        left: 0;
-        box-sizing: border-box;
-    }
-    /* Ensure Streamlit's main content is centered */
-    .stApp > div > div > div > div {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    /* More specific targeting for Streamlit's content container */
-    section.main > div.block-container {
-        max-width: 1200px !important;
-        margin: 0 auto !important;
-        padding: 1rem 2rem !important;
-    }
-    /* Center content within columns */
-    .stColumns > div {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    /* Ensure full width utilization within the centered container */
-    .element-container, .stMarkdown, .stButton {
-        width: 100%;
-    }
-    /* Main content container centering - Fixed sidebar offset */
-    .main .block-container {
-        max-width: calc(1200px + 256px) !important;
-        margin: 0 auto !important;
-        padding: 0.5rem 2rem 1rem 258px !important; /* Left padding instead of margin */
-        width: 100% !important;
-    }
-    /* When no role is selected (landing page), no margin */
-    .no-sidebar .main .block-container {
-        margin-left: 0 !important;
-        padding-left: 1rem !important;
-        max-width: 1200px !important;
-    }
-    /* Header alignment - left aligned at top with proper spacing */
-    .main h1, .main h2, .main h3 {
-        text-align: left;
-        margin-top: 0 !important;
-        padding-top: 0.5rem !important;
-        margin-bottom: 0.5rem !important;
-    }
-    
-    /* Proper page title spacing */
-    .main h1:first-child {
-        padding-top: 1rem !important;
-        margin-bottom: 1rem !important;
-    }
-    /* Content structure alignment */
-    .stMarkdown, .stSelectbox, .stTextInput, .stTextArea, 
-    .stButton, .stMetric, .stDataFrame {
-        margin-bottom: 1rem;
-    }
-    
-    /* Form elements alignment */
-    .stButton > button {
-        margin-top: 0.5rem;
-    }
-    
-    /* Section spacing */
-    .section-spacing {
-        margin: 1.5rem 0;
-    }
-    
-    /* Center specific dashboard elements */
-    .stMetric {
-        text-align: center;
-    }
-    /* Reset text alignment for content that should be left-aligned */
-    .stTextArea textarea, .stTextInput input, .stSelectbox, 
-    .table-container, .job-posting-card, .summary-card,
-    .stMarkdown p, .stMarkdown div {
-        text-align: left !important;
-    }
-    /* Hide Streamlit sidebar on home page */
-    .hide-sidebar .stSidebar {
-        display: none;
-    }
-    .hide-sidebar .main .block-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-        max-width: none;
-    }
-    /* Hide only Streamlit's default page navigation, keep custom content */
-            [data-testid="stSidebarNav"] {
-        display: none !important;
-    }
-            [data-testid="stSidebarNavItems"] {
-        display: none !important;
-    }
-    /* Enhanced sidebar button styling */
-    .stSidebar .stButton > button {
-        background: transparent !important;
-        border: none !important;
-        color: #e2e8f0 !important;
-        font-weight: 500 !important;
-        padding: 12px 16px !important;
-        margin: 4px 0 !important;
-        border-radius: 8px !important;
-        transition: all 0.2s ease !important;
-        text-align: left !important;
-        width: 100% !important;
-        font-size: 14px !important;
-        min-height: 2.5rem !important;
-    }
-    .stSidebar .stButton > button:hover {
-        background:#FAFA33 !important;
-        color: #ffffff !important;
-        transform: translateX(4px) !important;
-        border: none !important;
-    }
-    .stSidebar .stButton > button:focus {
-        box-shadow: #FAFA33 !important;
-        outline: none !important;
-        border: none !important;
-    }
-    .stSidebar .stButton > button:active {
-        background: #FAFA33 !important;
-        border: none !important;
-    }
-    .header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 24px;
-        background-color: white;
-        border-bottom: 1px solid #E2E8F0;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    .header > div {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-    /* Center page content */
-    .stApp > div:first-child {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    /* Center dashboard cards and grids */
-    .card-grid {
-        display: flex;
-        justify-content: center;
-        gap: 24px;
-        margin: 24px auto;
-        max-width: 1200px;
-        flex-wrap: wrap;
-    }
-    /* Center table containers */
-    .table-container {
-        margin: 0 auto !important;
-        max-width: 1200px !important;
-    }
-    .sidebar-nav-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 14px 16px;
-        margin: 6px 0;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-size: 0.95rem;
-        line-height: 1.4;
-    }
-    .sidebar-nav-item:hover:not(.active) {
-        background-color: #334155;
-    }
-    .sidebar-nav-item.active {
-        background-color: #FAFA33;
-        color: black;
-        font-weight: 700;
-    }
-    .card-container-landing {
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-        margin-top: 50px;
-    }
-    .card-landing {
-        background-color: #fff;
-        border-radius: 15px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        text-align: center;
-        width: 350px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 2px solid transparent;
-    }
-    .card-landing:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        border-color: #a8d8e0;
-    }
-    .card-landing-icon {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 20px;
-    }
-    .card-landing-title {
-        font-size: 1.5em;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 10px;
-    }
-    .card-landing-description {
-        color: #666;
-        font-size: 0.9em;
-    }
-    .card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 24px;
-        margin-top: 24px;
-    }
-    .summary-card, .job-posting-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        padding: 24px;
-        border-radius: 16px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-        border: 2px solid rgba(212, 247, 76, 0.3);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-    .summary-card::before, .job-posting-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
-        pointer-events: none;
-    }
-    .summary-card:hover, .job-posting-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-        border-color: rgba(212, 247, 76, 0.6);
-    }
-    .summary-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .job-posting-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .job-posting-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    .table-container {
-        background-color: white;
-        padding: 24px;
-        border-radius: 12px;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    }
-    .table-responsive {
-        overflow-x: auto;
-    }
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .table th, .table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #F1F5F9;
-    }
-    .table th {
-        color: #64748B;
-        font-weight: 500;
-    }
-    .table tbody tr:hover {
-        background-color: #F8FAFC;
-    }
-    .tag-high {
-        background-color: #D1FAE5;
-        color: #065F46;
-        font-weight: 600;
-        padding: 4px 12px;
-        border-radius: 9999px;
-        font-size: 0.875rem;
-    }
-    .tag-medium {
-        background-color: #FFFBEB;
-        color: #78350F;
-        font-weight: 600;
-        padding: 4px 12px;
-        border-radius: 9999px;
-        font-size: 0.875rem;
-    }
-    .tag-low {
-        background-color: #FEE2E2;
-        color: #991B1B;
-        font-weight: 600;
-        padding: 4px 12px;
-        border-radius: 9999px;
-        font-size: 0.875rem;
-    }
-    .metric-score {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        width: 80px;
-        height: 80px;
-    }
-    .metric-circle-bg {
-        stroke-width: 10;
-        stroke: #E2E8F0;
-        fill: transparent;
-        r: 50;
-        cx: 60;
-        cy: 60;
-    }
-    .metric-circle-fill {
-        stroke-width: 10;
-        stroke-dasharray: 314.159;
-        stroke-linecap: round;
-        fill: transparent;
-        r: 50;
-        cx: 60;
-        cy: 60;
-        transition: stroke-dashoffset 0.5s ease-in-out;
-        transform: rotate(-90deg);
-        transform-origin: 50% 50%;
-    }
-    .metric-number {
-        position: absolute;
-        font-size: 24px;
-        font-weight: 700;
-    }
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 999;
-    }
-    .modal-content {
-        background-color: white;
-        border-radius: 12px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        width: 100%;
-        max-width: 768px;
-        padding: 0;
-    }
-    .modal-header {
-        padding: 24px;
-        border-bottom: 4px solid;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
-    .modal-tabs {
-        padding: 24px;
-        border-bottom: 1px solid #E2E8F0;
-        display: flex;
-        gap: 8px;
-    }
-    .tab-button {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        font-size: 14px;
-        font-weight: 600;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: #4B5563;
-    }
-    .tab-button.active {
-        background-color: #E0E7FF;
-        color: #312E81;
-    }
-    .modal-body {
-        padding: 24px;
-    }
-    .file-upload-box {
-        border: 2px dashed #CBD5E1;
-        border-radius: 8px;
-        padding: 24px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .file-upload-box:hover {
-        border-color: #64748B;
-    }
-    .faq-item {
-        background-color: #F8FAFC;
-        padding: 16px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-    }
-    .st-emotion-cache-1cypcdb {
-        display: none;
-    }
-</style>
-""", unsafe_allow_html=True)
-
 
 # --- UTILITY FUNCTIONS FOR STYLING AND COMPONENTS ---
 def get_score_color(score):
@@ -736,29 +287,19 @@ def get_tag_html(score, verdict=None):
     if verdict:
         verdict_lower = verdict.lower()
         if verdict_lower in ['high', 'excellent', 'strong']:
-            return '<span class="tag-high">High Fit</span>'
+            return '<span>High Fit</span>'
         elif verdict_lower in ['medium', 'moderate', 'average']:
-            return '<span class="tag-medium">Medium Fit</span>'
+            return '<span>Medium Fit</span>'
         elif st.session_state.role == "candidate":  # low, poor, weak, etc.
-            return '<span class="tag-low">Low Fit</span>'
+            return '<span>Low Fit</span>'
     
     # Fallback to score-based calculation
-    if score >= 80: return '<span class="tag-high">High Fit</span>'
-    if score >= 60: return '<span class="tag-medium">Medium Fit</span>'
-    return '<span class="tag-low">Low Fit</span>'
+    if score >= 80: return '<span>High Fit</span>'
+    if score >= 60: return '<span>Medium Fit</span>'
+    return '<span>Low Fit</span>'
 
 def render_score_circle(score, color=None):
-    if color is None: color = get_score_color(score)
-    stroke_offset = 314.159 * (1 - score / 100)
-    st.markdown(f"""
-        <div class="metric-score">
-            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
-                <circle class="metric-circle-bg" stroke="currentColor"></circle>
-                <circle class="metric-circle-fill" stroke-dashoffset="{stroke_offset}" stroke="{color}"></circle>
-            </svg>
-            <span class="metric-number" style="color: {color};">{score}</span>
-        </div>
-    """, unsafe_allow_html=True)
+    st.metric(label="Relevance Score", value=f"{score}%")
 
 
 # --- MODALS ---
@@ -839,17 +380,13 @@ def view_details_modal(candidate_data):
     is_backend_data = 'application_id' in candidate_data and 'missing_skills' in candidate_data
     
     # Header section that matches the screenshot
-    st.markdown(f"""
-    <div style="margin-bottom: 20px;">
-        <h1 style="margin: 0; color: #1e293b; font-size: 2rem; font-weight: 700;">{candidate_data['name']}</h1>
-        <p style="color: #64748b; margin: 4px 0 12px 0; font-size: 1.1rem;">{candidate_data['job_role']}</p>
-        {get_tag_html(candidate_data['score'], candidate_data.get('verdict'))}
-    </div>
-    """, unsafe_allow_html=True)
+    st.subheader(candidate_data['name'])
+    st.write(candidate_data['job_role'])
+    st.markdown(get_tag_html(candidate_data['score'], candidate_data.get('verdict')), unsafe_allow_html=True)
     
     if is_backend_data:
         # Enhanced tabs for backend data
-        tabs = st.tabs(["👤 Overview", "🎯 Missing Skills", "💡 AI Feedback", "📋 Application Details"])
+        tabs = st.tabs(["Overview", "Missing Skills", "AI Feedback", "Application Details"])
         
         with tabs[0]:
             # Layout with score circle and AI summary side by side
@@ -857,64 +394,40 @@ def view_details_modal(candidate_data):
             
             with col1:
                 # Score circle
-                score_color = get_score_color(candidate_data['score'])
-                st.markdown(f"""
-                <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
-                    <div style="width: 100px; height: 100px; border-radius: 50%; border: 8px solid {score_color}; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: {score_color}; margin-bottom: 12px;">
-                        {candidate_data['score']}
-                    </div>
-                    <p style="text-align: center; font-weight: 600; color:#475569; margin: 0;">Relevance Score</p>
-                    <p style="text-align: center; font-weight: 600; color:#10b981; margin: 4px 0 0 0;">{candidate_data.get('verdict', 'Medium')} Fit</p>
-                </div>
-                """, unsafe_allow_html=True)
+                render_score_circle(candidate_data['score'])
+                st.write(f"{candidate_data.get('verdict', 'Medium')} Fit")
             
             with col2:
-                st.markdown("#### AI Assessment")
+                st.subheader("AI Assessment")
                 feedback = candidate_data.get('feedback', 'Application processed successfully.')
-                st.markdown(f'<p style="color:#475569; line-height: 1.6;">{feedback}</p>', unsafe_allow_html=True)
+                st.write(feedback)
                 
                 # Quick stats
-                st.markdown("#### Quick Stats")
+                st.subheader("Quick Stats")
                 col2a, col2b = st.columns(2)
                 with col2a:
                     missing_count = len(candidate_data.get('missing_skills', []))
                     st.metric("Missing Skills", missing_count)
                 with col2b:
                     resume_file = candidate_data.get('resume_file', 'N/A')
-                    st.markdown(f"**Resume:** {resume_file}")
+                    st.write(f"**Resume:** {resume_file}")
         
         with tabs[1]:
-            st.markdown("#### Missing Skills Analysis")
+            st.subheader("Missing Skills Analysis")
             missing_skills = candidate_data.get('missing_skills', [])
             if missing_skills:
                 for skill in missing_skills:
-                    st.markdown(f"""
-                    <div style="display: flex; align-items: center; margin: 8px 0; padding: 8px; background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 4px;">
-                        <span style="color: #ef4444; margin-right: 8px; font-weight: bold;">×</span>
-                        <span style="color: #7f1d1d;">{skill}</span>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    st.write(f"❌ {skill}")
                 
-                st.markdown("#### Recommendations")
-                st.markdown(f"""
-                <div style="background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; padding: 16px; margin-top: 12px;">
-                    <p style="color: #92400e; margin: 0; line-height: 1.6;">
-                        Consider developing skills in: <strong>{', '.join(missing_skills[:3])}</strong>. 
-                        These areas would significantly improve the candidate's match for this role.
-                    </p>
-                </div>
-                """, unsafe_allow_html=True)
+                st.subheader("Recommendations")
+                st.info(f"Consider developing skills in: {', '.join(missing_skills[:3])}.")
             elif st.session_state.role == "candidate":
                 st.success("No missing skills identified! This candidate has excellent skill alignment.")
         
         with tabs[2]:
-            st.markdown("#### Detailed AI Feedback")
+            st.subheader("Detailed AI Feedback")
             feedback = candidate_data.get('feedback', 'Application processed successfully.')
-            st.markdown(f"""
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;">
-                <p style="color: #374151; line-height: 1.6; margin: 0;">{feedback}</p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.write(feedback)
             
             # Verdict-based additional insights
             verdict = candidate_data.get('verdict', 'Medium').lower()
@@ -926,15 +439,15 @@ def view_details_modal(candidate_data):
                 st.warning("This candidate may need significant development to fit this role.")
         
         with tabs[3]:
-            st.markdown("#### Application Information")
+            st.subheader("Application Information")
             
             col3a, col3b = st.columns(2)
             with col3a:
                 if candidate_data.get('application_id'):
-                    st.markdown(f"**Application ID:** {candidate_data['application_id']}")
+                    st.write(f"**Application ID:** {candidate_data['application_id']}")
                 if candidate_data.get('resume_file'):
-                    st.markdown(f"**Resume File:** {candidate_data['resume_file']}")
-                st.markdown(f"**Job Applied For:** {candidate_data['job_role']}")
+                    st.write(f"**Resume File:** {candidate_data['resume_file']}")
+                st.write(f"**Job Applied For:** {candidate_data['job_role']}")
                 
             with col3b:
                 if candidate_data.get('application_date'):
@@ -942,16 +455,16 @@ def view_details_modal(candidate_data):
                         from datetime import datetime
                         dt = datetime.fromisoformat(candidate_data['application_date'].replace('Z', '+00:00'))
                         formatted_date = dt.strftime('%B %d, %Y at %I:%M %p')
-                        st.markdown(f"**Applied:** {formatted_date}")
+                        st.write(f"**Applied:** {formatted_date}")
                     except:
-                        st.markdown(f"**Applied:** {candidate_data['application_date']}")
+                        st.write(f"**Applied:** {candidate_data['application_date']}")
                 
-                st.markdown(f"**Relevance Score:** {candidate_data['score']}/100")
-                st.markdown(f"**Final Verdict:** {candidate_data.get('verdict', 'Medium')}")
+                st.write(f"**Relevance Score:** {candidate_data['score']}/100")
+                st.write(f"**Final Verdict:** {candidate_data.get('verdict', 'Medium')}")
     
     elif st.session_state.role == "candidate":
         # Original tabs for legacy data
-        tabs = st.tabs(["👤 Overview", "💡 AI Feedback", "📊 Comparison"])
+        tabs = st.tabs(["Overview", "AI Feedback", "Comparison"])
         
         with tabs[0]:
             # Layout matching the screenshot with score circle and AI summary side by side
@@ -959,61 +472,47 @@ def view_details_modal(candidate_data):
             
             with col1:
                 # Score circle that matches the screenshot
-                score_color = get_score_color(candidate_data['score'])
-                st.markdown(f"""
-                <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
-                    <div style="width: 100px; height: 100px; border-radius: 50%; border: 8px solid {score_color}; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: {score_color}; margin-bottom: 12px;">
-                        {candidate_data['score']}
-                    </div>
-                    <p style="text-align: center; font-weight: 600; color:#475569; margin: 0;">Relevance Score</p>
-                </div>
-                """, unsafe_allow_html=True)
+                render_score_circle(candidate_data['score'])
+                st.write("Relevance Score")
             
             with col2:
-                st.markdown("#### AI Summary")
-                st.markdown(f'{candidate_data.get("summary", "Candidate assessment completed.")}')
+                st.subheader("AI Summary")
+                st.write(candidate_data.get("summary", "Candidate assessment completed."))
                 
                 if candidate_data.get("gaps"):
-                    st.markdown("#### Skill Gaps Identified")
+                    st.subheader("Skill Gaps Identified")
                     for gap in candidate_data["gaps"]:
-                        st.markdown(f'❌ {gap}')
+                        st.write(f'❌ {gap}')
         
         with tabs[1]:
-            st.markdown("#### Highlighted Gaps")
+            st.subheader("Highlighted Gaps")
             if candidate_data.get("gaps"):
                 for gap in candidate_data["gaps"]:
-                    st.markdown(f"""
-                    <div style="display: flex; align-items: center; margin: 8px 0;">
-                        <span style="color: #ef4444; margin-right: 8px;">●</span>
-                        <span>{gap}</span>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    st.write(f"❌ {gap}")
             elif st.session_state.role == "candidate":
                 st.success("No significant gaps identified!")
                 
             st.markdown("---")
-            st.markdown("#### 💡 Improvement Feedback")
+            st.subheader("💡 Improvement Feedback")
             st.info(candidate_data.get("suggestions", "Continue developing relevant skills and experience."))
 
         with tabs[2]:
-            st.markdown("#### Score Comparison")
+            st.subheader("Score Comparison")
             
             # Get the job data for comparison
             job_data = JOBS_DATA.get(candidate_data['job_role'], {})
             avg_score = job_data.get('avg_score', 0)
             
             # Candidate score bar
-            st.markdown(f"**Candidate Score**")
-            st.markdown(f'<div style="color: {get_score_color(candidate_data["score"])}; font-weight: bold; float: right;">{candidate_data["score"]}</div>', unsafe_allow_html=True)
+            st.write(f"**Candidate Score**")
             st.progress(candidate_data['score'] / 100)
             
             # Average score bar  
-            st.markdown(f"**Average for Role**")
-            st.markdown(f'<div style="color: #64748b; font-weight: bold; float: right;">{avg_score}</div>', unsafe_allow_html=True)
+            st.write(f"**Average for Role**")
             st.progress(avg_score / 100)
             
             st.markdown("---")
-            st.markdown(f"This chart compares {candidate_data['name']}'s relevance score to the average score of all candidates who applied for the {candidate_data['job_role']} position.")
+            st.write(f"This chart compares {candidate_data['name']}'s relevance score to the average score of all candidates who applied for the {candidate_data['job_role']} position.")
             
             if candidate_data['score'] > avg_score:
                 st.success(f"This candidate scored {candidate_data['score'] - avg_score} points above average!")
@@ -1023,41 +522,34 @@ def view_details_modal(candidate_data):
                 st.info("This candidate scored exactly at the average level.")
     
     with tabs[1]:
-        st.markdown("#### Highlighted Gaps")
+        st.subheader("Highlighted Gaps")
         if candidate_data.get("gaps"):
             for gap in candidate_data["gaps"]:
-                st.markdown(f"""
-                <div style="display: flex; align-items: center; margin: 8px 0;">
-                    <span style="color: #ef4444; margin-right: 8px;">●</span>
-                    <span>{gap}</span>
-                </div>
-                """, unsafe_allow_html=True)
+                st.write(f"❌ {gap}")
         elif st.session_state.role == "candidate":
             st.success("No significant gaps identified!")
             
         st.markdown("---")
-        st.markdown("#### 💡 Improvement Feedback")
+        st.subheader("💡 Improvement Feedback")
         st.info(candidate_data["suggestions"])
 
     with tabs[2]:
-        st.markdown("#### Score Comparison")
+        st.subheader("Score Comparison")
         
         # Get the job data for comparison
         job_data = JOBS_DATA.get(candidate_data['job_role'], {})
         avg_score = job_data.get('avg_score', 0)
         
         # Candidate score bar
-        st.markdown(f"**Candidate Score**")
-        st.markdown(f'<div style="color: {get_score_color(candidate_data["score"])}; font-weight: bold; float: right;">{candidate_data["score"]}</div>', unsafe_allow_html=True)
+        st.write(f"**Candidate Score**")
         st.progress(candidate_data['score'] / 100)
         
         # Average score bar  
-        st.markdown(f"**Average for Role**")
-        st.markdown(f'<div style="color: #64748b; font-weight: bold; float: right;">{avg_score}</div>', unsafe_allow_html=True)
+        st.write(f"**Average for Role**")
         st.progress(avg_score / 100)
         
         st.markdown("---")
-        st.markdown(f"This chart compares {candidate_data['name']}'s relevance score to the average score of all candidates who applied for the {candidate_data['job_role']} position.")
+        st.write(f"This chart compares {candidate_data['name']}'s relevance score to the average score of all candidates who applied for the {candidate_data['job_role']} position.")
         
         if candidate_data['score'] > avg_score:
             st.success(f"This candidate scores {candidate_data['score'] - avg_score} points above average!")
@@ -1079,45 +571,23 @@ def job_details_modal(job_title, job_data):
     
     with col_main:
         # Job title and department
-        st.markdown(f"""
-        <div style="margin-bottom: 32px;">
-            <h1 style="font-size: 2.5rem; font-weight: 700; color: #1e293b; margin: 0 0 8px 0; line-height: 1.2;">{job_title}</h1>
-            <p style="color: #64748b; font-size: 1.125rem; margin: 0; font-weight: 500;">{job_data['department']}</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.title(job_title)
+        st.subheader(job_data['department'])
         
         # Job Description Section
-        st.markdown("""
-        <div style="margin-bottom: 32px;">
-            <h3 style="font-size: 1.375rem; font-weight: 600; color: #1e293b; margin: 0 0 16px 0;">Job Description</h3>
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown(f"<p style='color: #475569; line-height: 1.7; font-size: 1rem; margin-bottom: 32px;'>{job_data['description']}</p>", unsafe_allow_html=True)
+        st.subheader("Job Description")
+        st.write(job_data['description'])
         
         # Requirements Section
-        st.markdown("""
-        <div style="margin-bottom: 16px;">
-            <h3 style="font-size: 1.375rem; font-weight: 600; color: #1e293b; margin: 0 0 16px 0;">Requirements</h3>
-        </div>
-        """, unsafe_allow_html=True)
+        st.subheader("Requirements")
         
         for i, requirement in enumerate(job_data['requirements']):
-            st.markdown(f"""
-            <div style="display: flex; align-items: flex-start; margin-bottom: 12px;">
-                <span style="color: #3b82f6; font-weight: 600; margin-right: 12px; margin-top: 2px;">•</span>
-                <span style="color: #475569; line-height: 1.6; font-size: 1rem;">{requirement}</span>
-            </div>
-            """, unsafe_allow_html=True)
+            st.write(f"• {requirement}")
     
     with col_apply:
         # Application section with better styling
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 32px 24px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-        </div>
-        """, unsafe_allow_html=True)
-        
         st.markdown("### Upload Your Resume")
-        st.markdown("<p style='color: #64748b; font-size: 0.925rem; margin-bottom: 20px;'>Share your resume to get personalized feedback</p>", unsafe_allow_html=True)
+        st.write("Share your resume to get personalized feedback")
         
         # Enhanced file upload section
         uploaded_file = st.file_uploader(
@@ -1128,20 +598,9 @@ def job_details_modal(job_title, job_data):
         )
         
         if uploaded_file:
-            st.markdown("""
-            <div style="background: #dcfce7; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; margin: 16px 0; text-align: center;">
-                <div style="color: #16a34a; font-size: 2rem; margin-bottom: 8px;"></div>
-                <p style="color: #15803d; margin: 0; font-weight: 600;">Resume uploaded successfully!</p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.success("Resume uploaded successfully!")
         elif st.session_state.role == "candidate":
-            st.markdown("""
-            <div style="border: 2px dashed #cbd5e1; border-radius: 12px; padding: 48px 20px; text-align: center; margin: 20px 0; background: #fafbfc;">
-                <div style="color: #94a3b8; font-size: 3.5rem; margin-bottom: 16px;">📄</div>
-                <p style="color: #64748b; margin: 0; font-weight: 600; font-size: 1rem;">Upload a file</p>
-                <p style="color: #94a3b8; margin: 8px 0 0 0; font-size: 0.875rem;">TXT, PDF, DOCX</p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.warning("Please upload a file")
         
         st.markdown("<br>", unsafe_allow_html=True)
         
@@ -1198,19 +657,9 @@ def job_details_modal(job_title, job_data):
         st.markdown("<br>", unsafe_allow_html=True)
         
         # Enhanced statistics section
-        st.markdown(f"""
-        <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 24px;">
-            <h4 style="color: #1e293b; margin: 0 0 16px 0; font-size: 1.125rem; font-weight: 600;">Application Stats</h4>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <span style="color: #64748b; font-size: 0.925rem;">� Total Applications</span>
-                <span style="color: #1e293b; font-weight: 700; font-size: 1rem;">{job_data['applicants']}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="color: #64748b; font-size: 0.925rem;">📊 Average Score</span>
-                <span style="color: #10b981; font-weight: 700; font-size: 1rem;">{job_data['avg_score']}</span>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.subheader("Application Stats")
+        st.write(f"Total Applications: {job_data['applicants']}")
+        st.write(f"Average Score: {job_data['avg_score']}")
 
 @st.dialog("➕ Create New Job Posting")
 def create_job_posting_modal():
@@ -1292,7 +741,7 @@ def create_job_posting_modal():
                                     st.write("**Description:**", st.session_state.parsed_description[:200] + "..." if len(st.session_state.parsed_description) > 200 else st.session_state.parsed_description)
                                     st.write("**Requirements:**", st.session_state.parsed_requirements[:200] + "..." if len(st.session_state.parsed_requirements) > 200 else st.session_state.parsed_requirements)
                                     st.info("👇 **These values are automatically filled in the form below**")
-                                
+                                    
                                 # Removed st.rerun() - fields will update on next interaction
                             else:
                                 st.warning("Backend parsing failed. Using demo data...")
@@ -1313,7 +762,7 @@ def create_job_posting_modal():
                                     st.write("**Description:**", st.session_state.parsed_description[:200] + "..." if len(st.session_state.parsed_description) > 200 else st.session_state.parsed_description)
                                     st.write("**Requirements:**", st.session_state.parsed_requirements[:200] + "..." if len(st.session_state.parsed_requirements) > 200 else st.session_state.parsed_requirements)
                                     st.info(" **These values are automatically filled in the form below**")
-                                
+                                    
                                 # Removed st.rerun() - fields will update on next interaction
     
     # Show success message if parsing was completed
@@ -1435,24 +884,15 @@ def create_job_posting_modal():
 @st.dialog("Application Feedback") 
 def application_feedback_modal(app_data):
     # Header with job title
-    st.markdown(f"""
-        <div style="margin-bottom: 20px;">
-            <h2 style="font-size: 1.5rem; font-weight: 600; color: #1e293b; margin: 0 0 4px 0;">Application Feedback</h2>
-            <p style="color: #64748b; margin: 0;">For: {app_data['job_title']}</p>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # Orange progress bar
-    st.markdown("""
-        <div style="height: 4px; background: #f97316; border-radius: 2px; margin-bottom: 24px;"></div>
-    """, unsafe_allow_html=True)
+    st.subheader("Application Feedback")
+    st.write(f"For: {app_data['job_title']}")
     
     # Check if we have backend data or fallback data
     is_backend_data = 'verdict' in app_data and 'feedback' in app_data
     
     if is_backend_data:
         # Create tabs for backend data
-        tab1, tab2 = st.tabs(["👤 Overview", "🎯 Missing Skills"])
+        tab1, tab2 = st.tabs(["Overview", "Missing Skills"])
         
         with tab1:
             col1, col2 = st.columns([1, 2])
@@ -1460,21 +900,21 @@ def application_feedback_modal(app_data):
             with col1:
                 render_score_circle(app_data['score'])
                 verdict = app_data.get('verdict', 'Medium')
-                st.markdown(f'<p style="text-align: center; font-weight: 600; color:#475569; margin-top: 10px;">{get_tag_html(app_data["score"], verdict)}</p>', unsafe_allow_html=True)
+                st.write(f"Fit: {verdict}")
             
             with col2:
-                st.markdown('### AI Feedback')
+                st.subheader('AI Feedback')
                 feedback_text = app_data.get('feedback', 'Application processed successfully.')
-                st.markdown(f'<p style="color:#475569; line-height: 1.6;">{feedback_text}</p>', unsafe_allow_html=True)
+                st.write(feedback_text)
                 
                 # Show application details if available
                 if app_data.get('application_id'):
-                    st.markdown('### Application Details')
+                    st.subheader('Application Details')
                     col2a, col2b = st.columns(2)
                     with col2a:
-                        st.markdown(f"**Application ID:** {app_data['application_id']}")
+                        st.write(f"**Application ID:** {app_data['application_id']}")
                         if app_data.get('resume_filename'):
-                            st.markdown(f"**Resume File:** {app_data['resume_filename']}")
+                            st.write(f"**Resume File:** {app_data['resume_filename']}")
                     with col2b:
                         if app_data.get('application_date'):
                             from datetime import datetime
@@ -1482,26 +922,26 @@ def application_feedback_modal(app_data):
                                 # Parse the datetime string and format it nicely
                                 dt = datetime.fromisoformat(app_data['application_date'].replace('Z', '+00:00'))
                                 formatted_date = dt.strftime('%B %d, %Y at %I:%M %p')
-                                st.markdown(f"**Applied:** {formatted_date}")
+                                st.write(f"**Applied:** {formatted_date}")
                             except:
-                                st.markdown(f"**Applied:** {app_data['application_date']}")
+                                st.write(f"**Applied:** {app_data['application_date']}")
         
         with tab2:
-            st.markdown('### Missing Skills')
+            st.subheader('Missing Skills')
             missing_skills = app_data.get('missing_skills', [])
             if missing_skills:
                 for skill in missing_skills:
-                    st.markdown(f'<p style="display: flex; align-items: center; gap: 8px; color: #EF4444;"><span style="font-size: 1.25em; line-height: 1; color: inherit;">&times;</span> {skill}</p>', unsafe_allow_html=True)
+                    st.write(f"❌ {skill}")
             elif st.session_state.role == "candidate":
-                st.markdown('<p style="color: #10b981;">✓ No missing skills identified!</p>', unsafe_allow_html=True)
+                st.success('✓ No missing skills identified!')
             
-            st.markdown('### Recommendations')
+            st.subheader('Recommendations')
             if missing_skills:
                 recommendations = f"Consider developing skills in: {', '.join(missing_skills[:3])}. These areas would significantly improve your match for this role."
             elif st.session_state.role == "candidate":
                 recommendations = "Great job! Your skills align well with the job requirements. Continue to strengthen your existing expertise."
             
-            st.markdown(f'<div style="background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; padding: 16px; margin-top: 12px;"><p style="color: #92400e; margin: 0; line-height: 1.6;">{recommendations}</p></div>', unsafe_allow_html=True)
+            st.info(recommendations)
     
     elif st.session_state.role == "candidate":
         # Use original format for fallback data
@@ -1512,78 +952,38 @@ def application_feedback_modal(app_data):
             
             with col1:
                 render_score_circle(app_data['score'])
-                st.markdown(f'<p style="text-align: center; font-weight: 600; color:#475569; margin-top: 10px;">{get_tag_html(app_data["score"])}</p>', unsafe_allow_html=True)
+                st.write(f"Fit: {get_tag_html(app_data['score'])}")
             
             with col2:
-                st.markdown('### AI Summary')
-                st.markdown(f'<p style="color:#475569; line-height: 1.6;">{app_data.get("summary", "Application processed successfully.")}</p>', unsafe_allow_html=True)
+                st.subheader('AI Summary')
+                st.write(app_data.get("summary", "Application processed successfully."))
         
         with tab2:
-            st.markdown('### Focus Areas for Your Resume')
+            st.subheader('Focus Areas for Your Resume')
             for area in app_data.get("focus_areas", []):
-                st.markdown(f'<p style="display: flex; align-items: center; gap: 8px; color: #EF4444;"><span style="font-size: 1.25em; line-height: 1; color: inherit;">&times;</span> {area}</p>', unsafe_allow_html=True)
+                st.write(f"❌ {area}")
             
-            st.markdown('### AI-Powered Suggestions')
+            st.subheader('AI-Powered Suggestions')
             suggestions = app_data.get("suggestions", "Continue to develop your skills and experience.")
-            st.markdown(f'<div style="background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; padding: 16px; margin-top: 12px;"><p style="color: #92400e; margin: 0; line-height: 1.6;">{suggestions}</p></div>', unsafe_allow_html=True)
+            st.info(suggestions)
 
 
 # --- MAIN APP LAYOUTS ---
 def render_landing_page():
-    # Sidebar visible on landing page - updated styling for consistency
-    st.markdown("""
-    <style>
-        /* .stSidebar {
-            display: none !important;
-        }
-        .main .block-container {
-            background: #111111 !important;
-            margin-left: 0 !important;
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
-            max-width: none !important;
-            border-radius: 18px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-        }
-        body, html, .stApp {
-            background: linear-gradient(135deg, #111111 0%, #222222 100%) !important;
-            color: #e2e8f0 !important;
-        }
-        h1, h2, h3, h4, h5, h6, .card-title {
-            color: #fafafa !important;
-        }
-        .card-container-landing, .card-landing {
-            background: #18181b !important;
-            color: #fafafa !important;
-            border: 2px solid #222 !important;
-        }
-        .card-landing:hover {
-            border-color: #FAFA33 !important;
-            box-shadow: 0 8px 24px rgba(250,250,51,0.08);
-        }
-        .stButton > button {
-            background: #FAFA33 !important;
-            color: #111 !important;
-            font-weight: 600 !important;
-            border-radius: 8px !important;
-        }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    st.markdown('<div style="text-align:center; padding-top: 50px;">', unsafe_allow_html=True)
+    st.markdown('<div style="text-align:center;">', unsafe_allow_html=True)
     
     # Display your logo using Streamlit's image function
     col_logo1, col_logo2, col_logo3 = st.columns([1, 1, 1])
     with col_logo2:
         st.image("logo.png", width=150)
     
-    st.markdown('<h1 style="display :flex ;justify-content: center; font-size: 2.5em; font-weight: 600; color: #333;">Welcome to the AI Resume Analyzer</h1>', unsafe_allow_html=True)
-    st.markdown('<p style="display: flex; justify-content: center; color: #666;">Please select your role to get started.</p>', unsafe_allow_html=True)
+    st.header("Welcome to the AI Resume Analyzer")
+    st.write("Please select your role to get started.")
     st.markdown('</div>', unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        st.markdown('<div class="card-container-landing">', unsafe_allow_html=True)
+        st.write("---")
         
         btn_col1, btn_col2 = st.columns(2)
         with btn_col1:
@@ -1599,105 +999,26 @@ def render_landing_page():
                 st.rerun()
 
 def render_sidebar():
-    # Simplified sidebar styling that doesn't interfere with button functionality
-    st.markdown("""
-    <style>
-        /* Hide only the default Streamlit navigation */
-                [data-testid="stSidebarNav"] {
-            display: none !important;
-        }
-                [data-testid="stSidebarNavItems"] {
-            display: none !important;
-        }
-        /* Custom sidebar background */
-        /* .stSidebar {
-            background: black !important;
-        }
-        .stSidebar > div {
-            background: black !important;
-        }
-        /* Style the logo container */
-        .sidebar-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-        }
-        .role-badge {
-            background: rgba(212, 247, 76, 0.2);
-            color: #D4F74C;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-top: 8px;
-            display: inline-block;
-        }
-        /* Enhanced sidebar button styling - using more specific selectors */
-        .stSidebar .stButton > button {
-            background: transparent !important;
-            border: none !important;
-            color: #e2e8f0 !important;
-            font-weight: 500 !important;
-            padding: 12px 16px !important;
-            margin: 4px 0 !important;
-            border-radius: 8px !important;
-            transition: all 0.2s ease !important;
-            text-align: left !important;
-            width: 100% !important;
-            font-size: 14px !important;
-            min-height: 2.5rem !important;
-        }
-        .stSidebar .stButton > button:hover {
-            background: #FAFA33 !important;
-            color: #000000 !important;
-            transform: translateX(4px) !important;
-            border: none !important;
-        }
-        .stSidebar .stButton > button:focus {
-            box-shadow: #FAFA33 !important;
-            outline: none !important;
-            border: none !important;
-        }
-        .stSidebar .stButton > button:active {
-            background: #FAFA33 !important;
-            border: none !important;
-        }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    role = st.session_state.role or "guest"
-    current_page = st.session_state.page
-    
-    # Enhanced logo section with role badge
     with st.sidebar:
         # Center the logo
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             st.image("logo.png", width=80)
         
-        # Role badge below logo
-        st.markdown(f"""
-        <div style="text-align: center; margin-top: 8px;">
-            <div class="role-badge">{role.title()}</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.write(f"Role: **{st.session_state.role.capitalize() if st.session_state.role else 'Guest'}**")
 
     # Navigation items with custom styling
-    if role == "recruiter":
+    if st.session_state.role == "recruiter":
         nav_items = [
-            (" Dashboard", "dashboard"), 
-            (" Job Postings", "job_postings"), 
-            (" Candidates", "candidates"),
-            (" Reports", "reports"), 
+            ("Dashboard", "dashboard"), 
+            ("Job Postings", "job_postings"), 
+            ("Candidates", "candidates"),
+            ("Reports", "reports"), 
         ]
-    elif role == "candidate":
+    elif st.session_state.role == "candidate":
         nav_items = [
-            (" Dashboard", "dashboard"),
-            (" Job Postings", "job_postings"),
+            ("Dashboard", "dashboard"),
+            ("Job Postings", "job_postings"),
         ]
     else:
         # Guest role - no navigation items
@@ -1709,22 +1030,16 @@ def render_sidebar():
             st.session_state.page = page
             st.rerun()
 
-    # Styled Help & Support button
-    if st.sidebar.button(" Help & Support", key="nav_help_support", use_container_width=True):
+    if st.sidebar.button("Help & Support", key="nav_help_support", use_container_width=True):
         st.session_state.page = "help_support"
         st.rerun()
     
-    # Backend Configuration Section
     st.sidebar.markdown("---")
     
-   
+    
 def render_header(title, subtitle, avatar_url=None):
-    # Header container with top alignment
-    st.markdown('<div style="margin-bottom: 2rem; padding-top: 0;">', unsafe_allow_html=True)
-    
-    st.markdown(f'<div style="text-align: left;"><h1 style="font-size: 1.5rem; font-weight: 700; color: #1E293B; margin: 0; margin-bottom: 0.25rem;">{title}</h1><p style="color: #64748B; margin: 0; text-transform: capitalize;">{subtitle}</p></div>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.header(title)
+    st.write(subtitle)
 
 
 # --- PAGES ---
@@ -1732,8 +1047,7 @@ def recruiter_dashboard_page():
     try:
         render_header("Dashboard", "Recruiter View", "https://i.pravatar.cc/40?u=recruiter")
         
-        # Always show something first so user knows page is loading
-        st.markdown("### 📊 Dashboard Overview")
+        st.subheader("📊 Dashboard Overview")
         
         # Get metrics from backend
         api_service = get_api_service()
@@ -1761,7 +1075,7 @@ def recruiter_dashboard_page():
     except Exception as e:
         st.error(f"Error loading dashboard: {str(e)}")
         # Always provide fallback content
-        st.markdown("### 📊 Dashboard Overview")
+        st.subheader("📊 Dashboard Overview")
         st.info("Using demo data due to loading error.")
         metrics_data = {
             "Total Candidates": 10,
@@ -1770,18 +1084,15 @@ def recruiter_dashboard_page():
             "Avg. Score": 65
         }
     
-    st.markdown('<div class="card-grid">', unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
-    with col1: st.markdown(f'<div class="summary-card"><div><p style="color:#64748B;">Total Candidates</p><p style="font-size: 3rem; font-weight: 700; color: #1E293B;">{metrics_data["Total Candidates"]}</p></div></div>', unsafe_allow_html=True)
-    with col2: st.markdown(f'<div class="summary-card"><div><p style="color:#64748B;">Open Positions</p><p style="font-size: 3rem; font-weight: 700; color: #1E293B;">{metrics_data["Open Positions"]}</p></div></div>', unsafe_allow_html=True)
-    with col3: st.markdown(f'<div class="summary-card"><div><p style="color:#64748B;">High-Fit Candidates</p><p style="font-size: 3rem; font-weight: 700; color: #1E293B;">{metrics_data["High-Fit Candidates"]}</p></div></div>', unsafe_allow_html=True)
-    with col4: st.markdown(f'<div class="summary-card"><div><p style="color:#64748B;">Avg. Score</p><p style="font-size: 3rem; font-weight: 700; color: #1E293B;">{metrics_data["Avg. Score"]}</p></div></div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    with col1: st.metric("Total Candidates", metrics_data["Total Candidates"])
+    with col2: st.metric("Open Positions", metrics_data["Open Positions"])
+    with col3: st.metric("High-Fit Candidates", metrics_data["High-Fit Candidates"])
+    with col4: st.metric("Avg. Score", metrics_data["Avg. Score"])
 
     col1, col2 = st.columns([2, 1])
     with col1:
-        st.markdown('<div class="table-container" style="margin-top: 24px;">', unsafe_allow_html=True)
-        st.markdown('<h2 style="font-size:1.25rem; font-weight:700; color:#1E293B; margin-bottom:16px;">Recent Candidates</h2>', unsafe_allow_html=True)
+        st.subheader("Recent Candidates")
         
         # Get recent candidates from backend
         backend_candidates = api_service.get_candidates(limit=5)
@@ -1803,23 +1114,11 @@ def recruiter_dashboard_page():
                 job_title = app.get('job', {}).get('job_title', 'Unknown Position')
                 score = app.get('relevance_score', 0)
                 
-                st.markdown(f"""
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F1F5F9;">
-                        <div style="flex: 1;">
-                            <p style="font-weight:600; margin:0;">{candidate_name}</p>
-                            <p style="color:#475569; font-size: 0.9em; margin:0;">{job_title}</p>
-                        </div>
-                        <div style="margin: 0 16px;">
-                            {get_tag_html(score)}
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-
+                st.write(f"**{candidate_name}** - {job_title} ({score}%) - {get_tag_html(score)}")
+                
+                
     with col2:
-        st.markdown('<div class="job-posting-card" style="margin-top: 24px;">', unsafe_allow_html=True)
-        st.markdown('<h2 style="font-size:1.25rem; font-weight:700; color:#1E293B; margin-bottom:16px;">Active Job Postings</h2>', unsafe_allow_html=True)
+        st.subheader("Active Job Postings")
         
         # Get jobs from backend
         backend_jobs = api_service.get_jobs()
@@ -1829,66 +1128,40 @@ def recruiter_dashboard_page():
             jobs = backend_jobs if isinstance(backend_jobs, list) else backend_jobs.get("jobs", [])
             for i, job in enumerate(jobs):
                 job_title = job.get('job_title', 'Unknown Job')
-                # Count applications for this job
                 applications_count = len([app for app in candidates if app.get('job_id') == job.get('id')])
                 
                 if st.button(f"{job_title} ({applications_count} applicants)", key=f"dash_job_{i}", use_container_width=True):
                     st.session_state.selected_job = job_title
                     st.session_state.page = "job_applicants"
                     st.rerun()
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-
+                
 def recruiter_job_postings_page():
     render_header("Job Postings", "Recruiter View", "https://i.pravatar.cc/40?u=recruiter")
     
-    # Data source indicator
-   
-    
-    
-    # Add the create new job posting button with proper styling
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if st.button(" Create New Job Posting", key="create_job_btn", type="primary", use_container_width=True):
             create_job_posting_modal()
     
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("### Active Job Postings")
+    st.subheader("Active Job Postings")
     
-    # Create a grid layout for job cards
-    cols = st.columns(2)  # 2 columns for better layout
+    cols = st.columns(2)
     
     for i, (job_title, data) in enumerate(st.session_state.jobs_data.items()):
-        with cols[i % 2]:  # Alternate between columns
-            with st.container():
-                # Create a styled, clickable job card
-                with st.container():
-                    st.markdown(f"""
-                    <div style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 16px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <h3 style="font-weight:600; color:#1E293B; margin:0 0 8px 0; font-size: 1.25rem;">📋 {job_title}</h3>
-                        <p style="font-size:0.875rem; color:#64748B; margin:0 0 16px;">📍 {data['department']} Department</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size:1.125rem; font-weight:700; color:#1E293B; margin:0;">{data['applicants']}</p>
-                                <p style="font-size:0.75rem; color:#64748B; margin:0;">👥 Applicants</p>
-                            </div>
-                            <div>
-                                <p style="font-size:1.125rem; font-weight:700; color:#1E293B; margin:0;">{data['avg_score']}</p>
-                                <p style="font-size:0.75rem; color:#64748B; margin:0;">📊 Avg. Score</p>
-                            </div>
-                        </div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    
-                    # Make the card clickable with a prominent button
-                    if st.button(f"👥 View {job_title} Applicants", key=f"job_card_click_{i}", use_container_width=True, type="primary"):
-                        st.session_state.selected_job = job_title
-                        st.session_state.page = "job_applicants"
-                        st.rerun()
-                    
-                    # Optional secondary action for job details
-                    if st.button(f"📋 View Job Details", key=f"job_details_{i}", type="secondary", use_container_width=True):
-                        job_details_modal(job_title, data)
+        with cols[i % 2]:
+            st.subheader(job_title)
+            st.write(f"Department: {data['department']}")
+            st.write(f"Applicants: {data['applicants']}")
+            st.write(f"Avg. Score: {data['avg_score']}")
+            
+            if st.button(f"View {job_title} Applicants", key=f"job_card_click_{i}", use_container_width=True, type="primary"):
+                st.session_state.selected_job = job_title
+                st.session_state.page = "job_applicants"
+                st.rerun()
+            
+            if st.button(f"View Job Details", key=f"job_details_{i}", type="secondary", use_container_width=True):
+                job_details_modal(job_title, data)
 
 def recruiter_candidates_page():
     render_header("Candidates", "Recruiter View", "https://i.pravatar.cc/40?u=recruiter")
@@ -1904,10 +1177,8 @@ def recruiter_candidates_page():
     # Process candidates data
     candidates = backend_candidates if isinstance(backend_candidates, list) else backend_candidates.get("candidates", [])
     
-    # Transform to consistent format
     processed_candidates = []
     for app in candidates:
-        # Map backend verdict to expected format
         backend_verdict = app.get('verdict', 'Medium')
         if 'High' in backend_verdict:
             verdict = 'High'
@@ -1918,10 +1189,8 @@ def recruiter_candidates_page():
         else:
             verdict = 'Medium'
         
-        # Extract candidate name from resume filename
         resume_filename = app.get('resume_filename', '')
         if resume_filename:
-            # Extract name from filename like "john_doe_resume.pdf" -> "John Doe"
             candidate_name = resume_filename.replace('_resume.pdf', '').replace('_', ' ').replace('.pdf', '').title()
             if not candidate_name or candidate_name == '.Pdf':
                 candidate_name = f"Candidate {app.get('id', 'Unknown')}"
@@ -1943,40 +1212,31 @@ def recruiter_candidates_page():
         }
         processed_candidates.append(candidate)
     
-    st.markdown('<div class="table-container" style="margin-top: 24px;">', unsafe_allow_html=True)
-    st.markdown('<h2 style="font-size:1.25rem; font-weight:700; color:#1E293B; margin-bottom:16px;">All Candidates</h2>', unsafe_allow_html=True)
+    st.subheader("All Candidates")
     
-    # Filter controls
     col1, col2, col3, col4 = st.columns([2, 2, 2, 1])
     
     search_term = col1.text_input("Search by name...", label_visibility="collapsed")
     
-    # Auto-sync candidates from backend if enabled and not already synced in this session
     if st.session_state.use_backend:
-        # Check if we need to sync (use a session state flag to avoid repeated syncing)
         if "candidates_synced" not in st.session_state:
             st.session_state.candidates_synced = False
         
-        # Fresh data is already loaded from backend via API calls
         st.session_state.candidates_synced = True
     
     job_role_filter = col2.selectbox("Job Role", ["All Job Roles"] + list(set([c['job_role'] for c in processed_candidates])))
     verdict_filter = col3.selectbox("Verdict", ["All Verdicts", "High", "Medium", "Low"])
     
-    # Apply filters
     filtered_candidates = processed_candidates.copy()
     
-    # Filter by search term (name) - case insensitive partial match
     if search_term and search_term.strip():
         filtered_candidates = [cand for cand in filtered_candidates 
                              if search_term.lower().strip() in cand['name'].lower()]
     
-    # Filter by job role
     if job_role_filter and job_role_filter != "All Job Roles":
         filtered_candidates = [cand for cand in filtered_candidates 
                              if cand['job_role'] == job_role_filter]
     
-    # Filter by verdict
     if verdict_filter and verdict_filter != "All Verdicts":
         filtered_candidates = [cand for cand in filtered_candidates 
                              if cand['verdict'] == verdict_filter]
@@ -1989,13 +1249,11 @@ def recruiter_candidates_page():
         active_filters.append(f"Verdict: {verdict_filter}")
     
     if active_filters:
-        st.markdown(f"**Showing {len(filtered_candidates)} candidates** | Active filters: {' • '.join(active_filters)}")
+        st.write(f"**Showing {len(filtered_candidates)} candidates** | Active filters: {' • '.join(active_filters)}")
     elif st.session_state.role == "candidate":
-        st.markdown(f"**Showing all {len(filtered_candidates)} candidates**")
+        st.write(f"**Showing all {len(filtered_candidates)} candidates**")
     
-    # Display filtered candidates
     if filtered_candidates:
-        # Table headers
         header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2, 2, 1, 2, 1])
         header_col1.markdown("**Candidate**")
         header_col2.markdown("**Job Role**")
@@ -2005,20 +1263,17 @@ def recruiter_candidates_page():
         
         st.markdown("---")
         
-        # Table rows
         for i, cand in enumerate(filtered_candidates):
             row_col1, row_col2, row_col3, row_col4, row_col5 = st.columns([2, 2, 1, 2, 1])
             
             with row_col1:
-                st.markdown(f"**{cand['name']}**")
+                st.write(f"**{cand['name']}**")
             
             with row_col2:
-                st.markdown(cand['job_role'])
+                st.write(cand['job_role'])
             
             with row_col3:
-                # Show score as a simple number with color
-                score_color = get_score_color(cand['score'])
-                st.markdown(f'<p style="color: {score_color}; font-weight: bold; margin: 0;">{cand["score"]}</p>', unsafe_allow_html=True)
+                st.write(cand["score"])
             
             with row_col4:
                 st.markdown(get_tag_html(cand['score']), unsafe_allow_html=True)
@@ -2027,13 +1282,11 @@ def recruiter_candidates_page():
                 if st.button("View Details", key=f"view_details_table_{i}", type="secondary"):
                     view_details_modal(cand)
             
-            # Add separator between rows
             if i < len(filtered_candidates) - 1:
                 st.markdown("---")
     elif st.session_state.role == "candidate":
         st.info("No candidates match the current filter criteria. Try adjusting your search terms.")
     
-    st.markdown('</div>', unsafe_allow_html=True)
 
 def recruiter_reports_page():
     render_header("Reports", "Recruiter View", "https://i.pravatar.cc/40?u=recruiter")
@@ -2059,10 +1312,8 @@ def recruiter_reports_page():
     # Process candidates data for detailed analytics
     candidates = backend_candidates if isinstance(backend_candidates, list) else backend_candidates.get("candidates", [])
     
-    # Transform to consistent format
     processed_candidates = []
     for app in candidates:
-        # Map backend verdict to expected format
         backend_verdict = app.get('verdict', 'Medium')
         if 'High' in backend_verdict:
             verdict = 'High'
@@ -2073,10 +1324,8 @@ def recruiter_reports_page():
         else:
             verdict = 'Medium'
         
-        # Extract candidate name from resume filename
         resume_filename = app.get('resume_filename', '')
         if resume_filename:
-            # Extract name from filename like "john_doe_resume.pdf" -> "John Doe"
             candidate_name = resume_filename.replace('_resume.pdf', '').replace('_', ' ').replace('.pdf', '').title()
             if not candidate_name or candidate_name == '.Pdf':
                 candidate_name = f"Candidate {app.get('id', 'Unknown')}"
@@ -2099,62 +1348,29 @@ def recruiter_reports_page():
         processed_candidates.append(candidate)
     
     # Summary Metrics
-    st.markdown('<div class="card-grid">', unsafe_allow_html=True)
+    st.subheader("Summary Metrics")
     col1, col2, col3 = st.columns(3)
-    col1.markdown(f'<div class="summary-card"><div><p style="color:#64748B;">Total Candidates Analyzed</p><p style="font-size: 3rem; font-weight: 700; color: #1E293B;">{total_candidates}</p></div></div>', unsafe_allow_html=True)
-    col2.markdown(f'<div class="summary-card"><div><p style="color:#64748B;">Average Score</p><p style="font-size: 3rem; font-weight: 700; color: #1E293B;">{avg_score}</p></div></div>', unsafe_allow_html=True)
-    col3.markdown(f'<div class="summary-card"><div><p style="color:#64748B;">High-Fit Candidates</p><p style="font-size: 3rem; font-weight: 700; color: #1E293B;">{high_fit_candidates}</p></div></div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    col1.metric("Total Candidates Analyzed", total_candidates)
+    col2.metric("Average Score", avg_score)
+    col3.metric("High-Fit Candidates", high_fit_candidates)
     
-    # First section: Candidate Verdict Distribution (full width)
-    st.markdown('<div style="margin-top: 32px;">', unsafe_allow_html=True)
+    st.subheader("Candidate Verdict Distribution")
     
-    # Verdict distribution section
-    st.markdown('<div class="table-container" style="margin-top: 24px; padding: 20px; background: white; border-radius: 12px; border: 1px solid #e2e8f0; max-width: 600px; margin-left: auto; margin-right: auto;">', unsafe_allow_html=True)
-    st.markdown('<h3 style="font-size: 1.25rem; font-weight: 600; color: #1E293B; margin-bottom: 20px; text-align: center;">Candidate Verdict Distribution</h3>', unsafe_allow_html=True)
-    
-    # Calculate verdict distribution
     high_count = len([c for c in processed_candidates if c['verdict'] == 'High'])
     medium_count = len([c for c in processed_candidates if c['verdict'] == 'Medium'])
     low_count = len([c for c in processed_candidates if c['verdict'] == 'Low'])
     
-    # Calculate percentages
-    high_pct = (high_count / total_candidates * 100) if total_candidates > 0 else 0
-    medium_pct = (medium_count / total_candidates * 100) if total_candidates > 0 else 0
-    low_pct = (low_count / total_candidates * 100) if total_candidates > 0 else 0
+    st.write(f"High Fit: {high_count}")
+    st.progress(high_count / total_candidates if total_candidates > 0 else 0)
     
-    # Display verdict distribution bars
-    verdict_data = [
-        ("High Fit", high_count, high_pct, "#10b981"),
-        ("Medium Fit", medium_count, medium_pct, "#f59e0b"),
-        ("Low Fit", low_count, low_pct, "#ef4444")
-    ]
+    st.write(f"Medium Fit: {medium_count}")
+    st.progress(medium_count / total_candidates if total_candidates > 0 else 0)
     
-    for verdict, count, percentage, color in verdict_data:
-        st.markdown(f'''
-        <div style="margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <span style="font-size: 0.875rem; color: #64748B;">{verdict}</span>
-                <div style="text-align: right;">
-                    <span style="font-size: 0.875rem; font-weight: 600; color: #1E293B;">{count}</span>
-                    <span style="font-size: 0.75rem; color: #64748B; margin-left: 4px;">({percentage:.1f}%)</span>
-                </div>
-            </div>
-            <div style="background: #f1f5f9; border-radius: 8px; height: 24px; overflow: hidden;">
-                <div style="background: {color}; height: 100%; width: {percentage}%; border-radius: 8px; transition: width 0.3s ease;"></div>
-            </div>
-        </div>
-        ''', unsafe_allow_html=True)
+    st.write(f"Low Fit: {low_count}")
+    st.progress(low_count / total_candidates if total_candidates > 0 else 0)
     
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.subheader("Average Score by Job")
     
-    # Second section: Average Score by Job (full width)
-    st.markdown('<div style="margin-top: 32px;">', unsafe_allow_html=True)
-    
-    st.markdown('<div class="table-container" style="margin-top: 24px; padding: 20px; background: white; border-radius: 12px; border: 1px solid #e2e8f0; max-width: 800px; margin-left: auto; margin-right: auto;">', unsafe_allow_html=True)
-    st.markdown('<h3 style="font-size: 1.25rem; font-weight: 600; color: #1E293B; margin-bottom: 20px; text-align: center;">Average Score by Job</h3>', unsafe_allow_html=True)
-    
-    # Calculate average scores by job role
     job_scores = {}
     for job_title in st.session_state.jobs_data.keys():
         candidates_for_job = [c for c in processed_candidates if c['job_role'] == job_title]
@@ -2162,115 +1378,15 @@ def recruiter_reports_page():
             avg = round(sum(c['score'] for c in candidates_for_job) / len(candidates_for_job))
             job_scores[job_title] = avg
     
-    # Display horizontal bar chart
     for job_title, score in job_scores.items():
-        # Calculate progress value (0-1)
-        progress_value = score / 100.0
-        
-        # Color based on score
-        if score >= 80:
-            bar_color = "#6366f1"  # Blue
-        elif score >= 60:
-            bar_color = "#f59e0b"  # Orange
-        elif st.session_state.role == "candidate":
-            bar_color = "#ef4444"  # Red
-        
-        st.markdown(f'''
-        <div style="margin-bottom: 16px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                <span style="font-size: 0.875rem; color: #64748B;">{job_title}</span>
-                <span style="font-size: 0.875rem; font-weight: 600; color: #1E293B;">{score}</span>
-            </div>
-            <div style="background: #f1f5f9; border-radius: 8px; height: 24px; overflow: hidden;">
-                <div style="background: {bar_color}; height: 100%; width: {progress_value * 100}%; border-radius: 8px; transition: width 0.3s ease;"></div>
-            </div>
-        </div>
-        ''', unsafe_allow_html=True)
+        st.write(f"**{job_title}**")
+        st.progress(score / 100.0)
     
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.subheader("Performance by Job")
     
-    # Third section: Performance Table (full width)
-    st.markdown('<div style="margin-top: 32px;">', unsafe_allow_html=True)
+    st.write("This table provides detailed performance metrics for each job posting.")
     
-    st.markdown('<div class="table-container" style="margin-top: 24px; padding: 20px; background: white; border-radius: 12px; border: 1px solid #e2e8f0;">', unsafe_allow_html=True)
-    st.markdown('<h3 style="font-size: 1.25rem; font-weight: 600; color: #1E293B; margin-bottom: 20px; text-align: center;">Performance by Job</h3>', unsafe_allow_html=True)
-        
-    # Create enhanced performance table with better alignment
-    st.markdown('''
-    <style>
-        .performance-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .performance-table th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 20px 16px;
-            text-align: center;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-        }
-        .performance-table th:first-child {
-            text-align: left;
-            min-width: 200px;
-        }
-        .performance-table th:last-child {
-            border-right: none;
-        }
-        .performance-table td {
-            padding: 18px 16px;
-            text-align: center;
-            border-bottom: 1px solid #f1f5f9;
-            border-right: 1px solid #f1f5f9;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        .performance-table td:first-child {
-            text-align: left;
-            font-weight: 600;
-            color: #1e293b;
-            background: #fafbfc;
-        }
-        .performance-table td:last-child {
-            border-right: none;
-        }
-        .performance-table tr:hover td {
-            background-color: #f8fafc;
-        }
-        .performance-table tr:hover td:first-child {
-            background-color: #f1f5f9;
-        }
-        .high-fit { color: #10b981; font-weight: 700; }
-        .medium-fit { color: #f59e0b; font-weight: 700; }
-        .low-fit { color: #ef4444; font-weight: 700; }
-        .score-cell { color: #1e293b; font-weight: 700; font-size: 1rem; }
-        .count-cell { color: #64748b; font-weight: 600; }
-    </style>
-    <div style="overflow-x: auto; margin: 0; padding: 0;">
-        <table class="performance-table">
-            <thead>
-                <tr>
-                    <th>Job Title</th>
-                    <th>Applicants</th>
-                    <th>Avg. Score</th>
-                    <th>High Fit</th>
-                    <th>Medium Fit</th>
-                    <th>Low Fit</th>
-                </tr>
-            </thead>
-            <tbody>
-    ''', unsafe_allow_html=True)
-    
-    # Generate enhanced table rows with better styling
+    job_data_list = []
     for i, job_title in enumerate(st.session_state.jobs_data.keys()):
         candidates_for_job = [c for c in processed_candidates if c['job_role'] == job_title]
         applicant_count = len(candidates_for_job)
@@ -2284,165 +1400,94 @@ def recruiter_reports_page():
             avg_score = 0
             high_fit = medium_fit = low_fit = 0
         
-        st.markdown(f'''
-        <tr>
-            <td>{job_title}</td>
-            <td class="count-cell">{applicant_count}</td>
-            <td class="score-cell">{avg_score}</td>
-            <td class="high-fit">{high_fit}</td>
-            <td class="medium-fit">{medium_fit}</td>
-            <td class="low-fit">{low_fit}</td>
-        </tr>
-        ''', unsafe_allow_html=True)
+        job_data_list.append({
+            "Job Title": job_title,
+            "Applicants": applicant_count,
+            "Avg. Score": avg_score,
+            "High Fit": high_fit,
+            "Medium Fit": medium_fit,
+            "Low Fit": low_fit
+        })
     
-    st.markdown('''
-            </tbody>
-        </table>
-    </div>
-    ''', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.table(job_data_list)
 
 
 def help_and_support_page():
-    render_header("Help & Support", st.session_state.role.capitalize() + " View", "https://i.pravatar.cc/40?u=recruiter" if st.session_state.role == 'recruiter' else "https://i.pravatar.cc/40?u=candidate")
+    render_header("Help & Support", (st.session_state.role.capitalize() if st.session_state.role else "Guest") + " View", "https://i.pravatar.cc/40?u=recruiter" if st.session_state.role == 'recruiter' else "https://i.pravatar.cc/40?u=candidate")
 
-    # Center the content with proper spacing
-    col1, col2, col3 = st.columns([1, 2, 1])
+    st.subheader("Frequently Asked Questions")
     
-    with col2:
-        # FAQ Section with better styling
-        st.markdown("""
-        <div style="background: white; padding: 30px; border-radius: 15px; margin-top: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-            <h3 style="font-weight: 600; text-align: center; color: #1E293B; margin-bottom: 25px;">Frequently Asked Questions</h3>
-        """, unsafe_allow_html=True)
-        
-        faqs = [
-            "How does the AI analysis work?", 
-            "What file types are supported for upload?", 
-            "How accurate is the AI feedback?", 
-            "Can I analyze multiple resumes at once?", 
-            "Who can see my analysis results?"
-        ]
-        
-        for i, faq in enumerate(faqs):
-            st.markdown(f"""
-            <div style="padding: 15px; margin: 10px 0; background: #f8fafc; border-radius: 8px; border-left: 4px solid #667eea;">
-                <p style="margin: 0; font-weight: 500; color: #374151;">❓ {faq}</p>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        # Contact Support Section with better layout
-        st.markdown("""
-        <div style="background: white; padding: 30px; border-radius: 15px; margin-top: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-            <h3 style="font-weight: 600; text-align: center; color: #1E293B; margin-bottom: 25px;">Contact Support</h3>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Support options in centered columns
-        support_col1, support_col2 = st.columns(2)
-        
-        with support_col1:
-            st.markdown("""
-            <div style="background: #f0f9ff; padding: 25px; border-radius: 12px; text-align: center; height: 180px; display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-size: 2.5rem; margin-bottom: 10px;">📧</div>
-                <h5 style="color: #1E293B; margin-bottom: 10px;">Email Support</h5>
-                <p style="color: #64748B; margin-bottom: 15px;">Get assistance via email</p>
-                <a href="mailto:support@innomatics.in" style="color: #667eea; font-weight: 600; text-decoration: none;">support@innomatics.in</a>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with support_col2:
-            st.markdown("""
-            <div style="background: #f0fdf4; padding: 25px; border-radius: 12px; text-align: center; height: 180px; display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-size: 2.5rem; margin-bottom: 10px;">💬</div>
-                <h5 style="color: #1E293B; margin-bottom: 10px;">Live Chat</h5>
-                <p style="color: #64748B; margin-bottom: 15px;">Chat with a support agent now</p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Center the button
-            if st.button("🚀 Start Chat", type="primary", use_container_width=True):
-                st.success("Chat feature coming soon!")
-
-    # Additional help resources section
-    st.markdown("<br>", unsafe_allow_html=True)
+    faqs = [
+        "How does the AI analysis work?", 
+        "What file types are supported for upload?", 
+        "How accurate is the AI feedback?", 
+        "Can I analyze multiple resumes at once?", 
+        "Who can see my analysis results?"
+    ]
     
-    # Full width section for additional resources
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; border-radius: 15px; margin-top: 30px; text-align: center;">
-        <h3 style="color: white; margin-bottom: 20px;">Need More Help?</h3>
-        <p style="color: rgba(255,255,255,0.9); margin-bottom: 25px; font-size: 1.1rem;">
-            Our comprehensive documentation and video tutorials can help you get the most out of the AI Resume Analyzer.
-        </p>
-        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-            <div style="background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 8px; color: white;">
-                📚 Documentation
-            </div>
-            <div style="background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 8px; color: white;">
-                🎥 Video Tutorials
-            </div>
-            <div style="background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 8px; color: white;">
-                🤝 Community Forum
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    for faq in faqs:
+        st.write(f"❓ {faq}")
+    
+    st.subheader("Contact Support")
+    
+    support_col1, support_col2 = st.columns(2)
+    
+    with support_col1:
+        st.write("Email Support")
+        st.write("Get assistance via email")
+        st.write("support@innomatics.in")
+    
+    with support_col2:
+        st.write("Live Chat")
+        st.write("Chat with a support agent now")
+        
+        if st.button("🚀 Start Chat", type="primary", use_container_width=True):
+            st.success("Chat feature coming soon!")
+    
+    st.markdown("---")
+    st.subheader("Need More Help?")
+    st.write("Our comprehensive documentation and video tutorials can help you get the most out of the AI Resume Analyzer.")
+    
+    col_docs, col_tutorials, col_forum = st.columns(3)
+    with col_docs:
+        st.button("📚 Documentation", use_container_width=True)
+    with col_tutorials:
+        st.button("🎥 Video Tutorials", use_container_width=True)
+    with col_forum:
+        st.button("🤝 Community Forum", use_container_width=True)
 
 
 def candidate_dashboard_page():
     render_header("Dashboard", "Student View", "https://i.pravatar.cc/40?u=candidate")
-    st.markdown("""
-        <div style="background-color: white; padding: 24px; border-radius: 12px; margin-top: 24px;">
-            <h3 style="font-weight: 600;">Welcome, Student!</h3>
-            <p>Ready to land your dream job? Browse open positions and get instant AI feedback on your resume to improve your chances.</p>
-        </div>
-    """, unsafe_allow_html=True)
+    st.subheader("Welcome, Student!")
+    st.write("Ready to land your dream job? Browse open positions and get instant AI feedback on your resume to improve your chances.")
     
-    # Add proper Streamlit button for navigation
     if st.button(" Browse Jobs", key="browse_jobs_btn", type="primary", use_container_width=True):
         st.session_state.page = "job_postings"
         st.rerun()
     
-    st.markdown('<h3 style="font-weight: 600; margin-top: 24px;">My Applications</h3>', unsafe_allow_html=True)
-    st.markdown('<p>No applications submitted yet. Browse job postings to apply for positions.</p>', unsafe_allow_html=True)
+    st.subheader("My Applications")
+    st.write("No applications submitted yet. Browse job postings to apply for positions.")
 
 def candidate_job_postings_page():
     render_header("Job Postings", "Student View", "https://i.pravatar.cc/40?u=candidate")
     
-    st.markdown("### Available Positions")
-    st.markdown("Browse and apply to open positions that match your skills and interests.")
+    st.subheader("Available Positions")
+    st.write("Browse and apply to open positions that match your skills and interests.")
     
-    # Create a grid layout for job cards
-    cols = st.columns(2)  # 2 columns for better layout
+    cols = st.columns(2)
     
     for i, (job_title, data) in enumerate(st.session_state.jobs_data.items()):
-        with cols[i % 2]:  # Alternate between columns
-            with st.container():
-                # Create a styled job card
-                st.markdown(f"""
-                <div class="job-posting-card" style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 16px;">
-                    <h3 style="font-weight:600; color:#1E293B; margin-top:0; margin-bottom: 8px;">{job_title}</h3>
-                    <p style="font-size:0.875rem; color:#64748B; margin:0 0 12px;">📍 {data['department']} Department</p>
-                    <p style="color: #475569; font-size: 0.9rem; line-height: 1.4; margin-bottom: 16px;">{data['description'][:120]}...</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <div>
-                            <p style="font-size:0.875rem; font-weight:600; color:#1E293B; margin:0;">👥 {data['applicants']} applicants</p>
-                        </div>
-                        <div>
-                            <p style="font-size:0.875rem; font-weight:600; color:#10B981; margin:0;">📊 Avg: {data['avg_score']}</p>
-                        </div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Add clickable buttons for each job using a single row
-                if st.button(f"View Details • Quick Apply", key=f"candidate_job_action_{i}", type="primary", use_container_width=True):
-                    job_details_modal(job_title, data)
-                    st.success(f"Applied to {job_title}!")
+        with cols[i % 2]:
+            st.subheader(job_title)
+            st.write(f"Department: {data['department']}")
+            st.write(f"Description: {data['description'][:120]}...")
+            st.write(f"Applicants: {data['applicants']}")
+            st.write(f"Avg. Score: {data['avg_score']}")
+            
+            if st.button(f"View Details • Quick Apply", key=f"candidate_job_action_{i}", type="primary", use_container_width=True):
+                job_details_modal(job_title, data)
+                st.success(f"Applied to {job_title}!")
 
 def job_applicants_page():
     """Page showing applicants for a specific job role"""
@@ -2451,7 +1496,6 @@ def job_applicants_page():
         st.error("No job selected")
         return
     
-    # Header with back button
     col1, col2 = st.columns([1, 5])
     with col1:
         if st.button("← Back to All Jobs", key="back_to_jobs"):
@@ -2460,11 +1504,10 @@ def job_applicants_page():
             st.rerun()
     
     with col2:
-        st.markdown(f'<h2 style="margin: 0;">Applicants for {job_title}</h2>', unsafe_allow_html=True)
+        st.header(f"Applicants for {job_title}")
     
     st.markdown("---")
     
-    # Filter candidates by job role from backend
     api_service = get_api_service()
     backend_candidates = api_service.get_candidates()
     
@@ -2479,7 +1522,6 @@ def job_applicants_page():
         st.info(f"No applicants found for {job_title}")
         return
     
-    # Table headers
     header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2, 2, 1, 2, 1])
     header_col1.markdown("**Candidate**")
     header_col2.markdown("**Job Role**")
@@ -2489,14 +1531,11 @@ def job_applicants_page():
     
     st.markdown("---")
     
-    # Display candidates
     for i, cand in enumerate(job_candidates):
         row_col1, row_col2, row_col3, row_col4, row_col5 = st.columns([2, 2, 1, 2, 1])
         
-        # Extract data from backend format
         resume_filename = cand.get('resume_filename', '')
         if resume_filename:
-            # Extract name from filename like "john_doe_resume.pdf" -> "John Doe"
             candidate_name = resume_filename.replace('_resume.pdf', '').replace('_', ' ').replace('.pdf', '').title()
             if not candidate_name or candidate_name == '.Pdf':
                 candidate_name = f"Candidate {cand.get('id', 'Unknown')}"
@@ -2507,7 +1546,6 @@ def job_applicants_page():
         score = cand.get('relevance_score', 0)
         verdict = cand.get('verdict', 'Medium')
         
-        # Map backend verdict to expected format
         if 'High' in verdict:
             verdict = 'High'
         elif 'Medium' in verdict:
@@ -2518,28 +1556,19 @@ def job_applicants_page():
             verdict = 'Medium'
         
         with row_col1:
-            st.markdown(f"**{candidate_name}**")
+            st.write(f"**{candidate_name}**")
         
         with row_col2:
-            st.markdown(job_role)
+            st.write(job_role)
         
         with row_col3:
-            # Show score as a circle like in the screenshot
-            score_color = get_score_color(score)
-            st.markdown(f"""
-            <div style="display: flex; align-items: center; justify-content: center;">
-                <div style="width: 50px; height: 50px; border-radius: 50%; border: 4px solid {score_color}; display: flex; align-items: center; justify-content: center; font-weight: bold; color: {score_color};">
-                    {score}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.write(score)
         
         with row_col4:
             st.markdown(get_tag_html(score), unsafe_allow_html=True)
         
         with row_col5:
             if st.button("View Details", key=f"applicant_details_{i}", type="secondary"):
-                # Create candidate object in expected format for modal
                 candidate_obj = {
                     'id': cand.get('id'),
                     'name': candidate_name,
@@ -2554,24 +1583,18 @@ def job_applicants_page():
                 }
                 view_details_modal(candidate_obj)
         
-        # Add separator between rows
         if i < len(job_candidates) - 1:
             st.markdown("---")
 
 
 # --- Main App Logic ---
 try:
-    # Ensure session state is properly initialized
     if "role" not in st.session_state or st.session_state.role is None:
-        # Home page - with sidebar visible
-        # Home page - with sidebar visible
         render_sidebar()
         render_landing_page()
     else:
-        # Render sidebar first
         render_sidebar()
 
-        # Main content area - wrap in container for better error handling
         try:
             if st.session_state.role == "recruiter":
                 if st.session_state.page == "dashboard":
@@ -2587,9 +1610,8 @@ try:
                 elif st.session_state.page == "help_support":
                     help_and_support_page()
                 elif st.session_state.role == "candidate":
-                    # Default to dashboard if page is unknown
                     recruiter_dashboard_page()
-            elif st.session_state.role == "candidate":  # candidate role
+            elif st.session_state.role == "candidate":
                 if st.session_state.page == "dashboard":
                     candidate_dashboard_page()
                 elif st.session_state.page == "job_postings":
@@ -2597,12 +1619,10 @@ try:
                 elif st.session_state.page == "help_support":
                     help_and_support_page()
                 elif st.session_state.role == "candidate":
-                    # Default to dashboard if page is unknown
                     candidate_dashboard_page()
         except Exception as e:
             st.error(f"Error loading page content: {str(e)}")
             st.info("Please try refreshing the page or contact support if the issue persists.")
-            # Show basic fallback content
             st.markdown("### Welcome to AI Resume Analyzer")
             st.markdown("There was an error loading the page content. Please try:")
             st.markdown("- Refreshing the page")
@@ -2612,17 +1632,13 @@ try:
 except Exception as e:
     st.error(f"Critical error in main app logic: {str(e)}")
     st.info("Please refresh the page to continue.")
-    # Emergency fallback
     st.markdown("### AI Resume Analyzer")
     st.markdown("Please refresh the page to start using the application.")
 
-    # Handle application feedback modal (when coming from job application)
     if st.session_state.get('show_application_feedback', False):
-        # Use real backend data if available, otherwise use mock data
         backend_result = st.session_state.get('feedback_backend_result')
         
         if backend_result and not backend_result.get('error'):
-            # Use real backend feedback data
             feedback_app_data = {
                 'job_title': st.session_state.get('feedback_job_title', 'Unknown'),
                 'score': backend_result.get('relevance_score', 75),
@@ -2634,7 +1650,6 @@ except Exception as e:
                 'application_date': backend_result.get('application_date')
             }
         elif st.session_state.role == "candidate":
-            # Fallback to mock data if backend failed or not available
             feedback_app_data = {
                 'job_title': st.session_state.get('feedback_job_title', 'Unknown'),
                 'score': 82,
@@ -2643,6 +1658,5 @@ except Exception as e:
                 'suggestions': 'Your React skills are strong. To better match the role, gain some experience with server-side rendering using Next.js and documenting components with Storybook.'
             }
         
-        # Reset the flag and show the modal
         st.session_state.show_application_feedback = False
         application_feedback_modal(feedback_app_data)
